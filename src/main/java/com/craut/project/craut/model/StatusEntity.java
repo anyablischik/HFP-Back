@@ -1,7 +1,14 @@
 package com.craut.project.craut.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "status")
 public class StatusEntity {
@@ -15,25 +22,6 @@ public class StatusEntity {
     private String status;
 
     public StatusEntity(String status) {
-        this.status = status;
-    }
-
-    public StatusEntity() {
-    }
-
-    public Long getIdstatus() {
-        return idstatus;
-    }
-
-    public void setIdstatus(Long idstatus) {
-        this.idstatus = idstatus;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
         this.status = status;
     }
 }

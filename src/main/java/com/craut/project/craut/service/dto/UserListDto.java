@@ -3,11 +3,6 @@ package com.craut.project.craut.service.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Dto for user list item.
- * @author d.krivenky
- * @since 27.08.2016
- */
 @Getter
 @Setter
 public class UserListDto implements Dto {
@@ -16,4 +11,12 @@ public class UserListDto implements Dto {
     private String username;
     private String role;
 
+    public UserListDto(long id, String username, String role) {
+        this.id = id;
+        this.username = username;
+        this.role = role;
+    }
+
+    public UserListDto() {
+    }
 }

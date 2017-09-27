@@ -1,14 +1,7 @@
 package com.craut.project.craut.model;
 
-
-
-import lombok.Getter;
-import lombok.Setter;
-import org.jboss.logging.annotations.Field;
-
 import javax.persistence.*;
-@Setter
-@Getter
+
 @Entity
 @Table(name = "user")
 public class UserEntity{
@@ -26,6 +19,72 @@ public class UserEntity{
     @Column(name = "email")
     private String email;
 
+    public UserEntity() {
+    }
+
+    public long getIduser() {
+        return iduser;
+    }
+
+    public void setIduser(long iduser) {
+        this.iduser = iduser;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(int blocked) {
+        this.blocked = blocked;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @Column(name = "userName")
     private String userName;
@@ -38,8 +97,6 @@ public class UserEntity{
 
     @Column(name = "image")
     private String image;
-    public UserEntity() {
-    }
 
     public UserEntity(String firstName, String lastName, String email, String userName, String password, int blocked,String image) {
         this.firstName = firstName;
@@ -51,16 +108,4 @@ public class UserEntity{
         this.image = image;
     }
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "iduser=" + iduser +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", nickName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", blocked=" + blocked +
-                '}';
-    }
 }

@@ -1,10 +1,13 @@
 package com.craut.project.craut.model;
 import javax.persistence.*;
+
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "comments")
 public class CommentsEntity {
@@ -17,17 +20,13 @@ public class CommentsEntity {
     @Column(name = "comment")
     private String comment;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne
     @JoinColumn(name = "projectid")
     private ProjectEntity projectEntity;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne
     @JoinColumn(name = "userid")
     private UserEntity userEntity;
-
-    public CommentsEntity(){}
 
     public CommentsEntity(String comment, ProjectEntity projectEntity, UserEntity userEntity) {
         this.comment = comment;

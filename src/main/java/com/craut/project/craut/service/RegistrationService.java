@@ -32,7 +32,8 @@ public class RegistrationService {
 
         String username = Optional.ofNullable(registrtionRequestDto.getUserName())
                 .orElseThrow(() -> new BadCredentialsException("Username should be passed."));
-        UserEntity userEntity = (UserEntity) genericDaoImpl.findByParametr(username,"UserEntity","userName");
+        UserEntity userEntity = (UserEntity) genericDaoImpl.findByParametr(username,"UserEntity",
+                "userName");
         if(userEntity!=null) {
             throw new BadCredentialsException("Username not Unique.");
         }
@@ -52,7 +53,8 @@ public class RegistrationService {
         int blocked = 3;
         UserRoleEntity userRoleEntity = new UserRoleEntity(
                 new UserEntity(firstname,secondname,
-                        email,username,password,blocked,""),(RolesEntity)genericDaoImpl.findById(new RolesEntity(),1L));
+                        email,username,password,blocked,""),
+                (RolesEntity)genericDaoImpl.findById(new RolesEntity(), 1L));
         genericDaoImpl.save(userRoleEntity);
         Verification.Verification(userRoleEntity.getUser().getEmail()
                 ,this.authenticationHelper.generateToken(userRoleEntity.getIdusers_roles()));

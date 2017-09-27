@@ -32,10 +32,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private static final String[] allowedUrlsForPost = new String[]{ "/login","/registration","/update-user","/sendData","/block",
-            "/confirmProfile","/idProject", "/tags","/rating","/getProjects","/searche","/getUserProjects","/confirmButton" };
-    private static final String[] allowedUrlsForGet = new String[]{ "/verification","/verification&token=**","/getUsers",
-            "/getProjects","/idProject","/searche","/confirmButton" };
+    private static final String[] allowedUrlsForPost = new String[]{ "/login","/registration","/idProject",
+            "/searcheTag", "/tags","/getProjects","/searche"};
+    private static final String[] allowedUrlsForGet = new String[]{ "/verification","/verification&token=**" };
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     private final UserDetailsService userDetailsService;

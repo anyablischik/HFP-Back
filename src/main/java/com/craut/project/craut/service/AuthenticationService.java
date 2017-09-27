@@ -45,17 +45,18 @@ public class AuthenticationService {
                     password);
             final Authentication authResult = this.authenticationManager.authenticate(authRequest);
 
-            // Set generated JWT token to response header
             if (authResult.isAuthenticated()) {
                 JwtUserDetails userDetails = (JwtUserDetails) authResult.getPrincipal();
 
                 UserEntity user = (UserEntity)genericDaoImpl.findById(new UserEntity(),userDetails.getId());
-                UserRoleEntity userRoleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,"UserRoleEntity","user");
+                UserRoleEntity userRoleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,
+                        "UserRoleEntity","user");
 
                 if (Objects.isNull(user)) {
                     throw new JsonException("User not exist in system.");
                 }
 
+                if(user.getBlocked() == 3) throw new JsonException("user is blocked");
                 String token = this.authenticationHelper.generateToken(userDetails.getId());
 
                 return new LoginResponseDto(token);
@@ -68,16 +69,14 @@ public class AuthenticationService {
         }
     }
 
-    /**
-     * Get user info.
-     * @return user info.
-     */
     @Transactional(readOnly = true)
     public AuthUserDto getMe() {
         Authentication authentication = SecurityHelper.getAuthenticationWithCheck();
         JwtUserDetails jwtUserDetails = (JwtUserDetails)authentication.getDetails();
-        UserEntity user = (UserEntity)genericDaoImpl.findByTwoParametr(jwtUserDetails.getUsername(),"UserEntity","userName","password",jwtUserDetails.getPassword());
-        UserRoleEntity userRoleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,"UserRoleEntity","user");
+        UserEntity user = (UserEntity)genericDaoImpl.findByTwoParametr(jwtUserDetails.getUsername(),
+                "UserEntity","userName","password",jwtUserDetails.getPassword());
+        UserRoleEntity userRoleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,
+                "UserRoleEntity","user");
         return authUserTransformer.makeDto(userRoleEntity);
     }
 }

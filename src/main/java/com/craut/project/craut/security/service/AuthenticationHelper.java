@@ -15,16 +15,11 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Objects;
 
-/**
- * @author ikatlinsky
- * @since 5/12/17
- */
 @Component
 @RequiredArgsConstructor
 public class AuthenticationHelper {
 
     public static final String AUTHENTICATION_HEADER = "Authorization";
-    public static final String AUTHENTICATION_PARAM = "auth";
     private final String SECRET = "ChangeMeToSomethingElse";
 
     private Long tokenExpirationTime = 3600L;
@@ -50,10 +45,8 @@ public class AuthenticationHelper {
             throw new InvalidTokenAuthenticationException("Token was null or blank.");
         }
 
-        // Getting JWT object from string token
         Jwt jwt = JwtHelper.decode(token);
 
-        // Validate token signature (to be sure that token has not been tampered with)
         try {
             jwt.verifySignature(new MacSigner(SECRET));
         } catch (Exception exception) {

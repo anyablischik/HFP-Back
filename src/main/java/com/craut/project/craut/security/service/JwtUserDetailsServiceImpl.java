@@ -14,10 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-/**
- * @author ikatlinsky
- * @since 5/12/17
- */
 @Service
 @RequiredArgsConstructor
 public class JwtUserDetailsServiceImpl implements UserDetailsService {

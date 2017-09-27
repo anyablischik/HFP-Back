@@ -1,8 +1,15 @@
 package com.craut.project.craut.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "users_roles")
 public class UserRoleEntity {
     @Id
@@ -14,7 +21,6 @@ public class UserRoleEntity {
     @JoinColumn(name = "idUser")
     private UserEntity user;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne
     @JoinColumn(name = "idRole")
     private RolesEntity role;
@@ -24,39 +30,4 @@ public class UserRoleEntity {
         this.role = role;
     }
 
-    public UserRoleEntity() {
-    }
-
-    public Long getIdusers_roles() {
-        return idusers_roles;
-    }
-
-    public void setIdusers_roles(Long idusers_roles) {
-        this.idusers_roles = idusers_roles;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    public RolesEntity getRole() {
-        return role;
-    }
-
-    public void setRole(RolesEntity role) {
-        this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "UserRoleEntity{" +
-                "idusers_roles=" + idusers_roles +
-                ", user=" + user +
-                ", role=" + role +
-                '}';
-    }
 }

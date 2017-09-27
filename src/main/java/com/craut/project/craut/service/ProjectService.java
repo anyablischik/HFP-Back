@@ -37,9 +37,12 @@ public class ProjectService {
         return "success";
     }
     public ProjectAndTagsRequestDto getProject(Object idproject){
-        ProjectEntity projectEntity = (ProjectEntity) genericDaoImpl.findById(new ProjectEntity(),Long.parseLong(idproject.toString()));
-        ProjectRequestDto projectRequestDto = new ProjectRequestDto(projectEntity.getContent(),projectEntity.getDwy(),projectEntity.getImage(),
-                projectEntity.getMoney(),projectEntity.getRating(),projectEntity.getName(),projectEntity.getPurpose(),""+projectEntity.getUser().getIduser(),
+        ProjectEntity projectEntity = (ProjectEntity) genericDaoImpl.findById(new ProjectEntity(),
+                Long.parseLong(idproject.toString()));
+        ProjectRequestDto projectRequestDto = new ProjectRequestDto(projectEntity.getContent(),projectEntity.getDwy(),
+                projectEntity.getImage(),
+                projectEntity.getMoney(),projectEntity.getRating(),projectEntity.getName(),projectEntity.getPurpose(),
+                ""+projectEntity.getUser().getIduser(),
                 projectEntity.getStatusEntity().getStatus(),projectEntity.getCash());
         ProjectAndTagsRequestDto projectAndTagsRequestDto = new ProjectAndTagsRequestDto(projectRequestDto,
                 genericDaoImpl.findTagByProject(projectEntity,"TagsEntity","projectEntity"),
@@ -49,9 +52,11 @@ public class ProjectService {
     }
 
     public void addMoney(ProjectMoney projectMoney){
-        ProjectEntity projectEntity = (ProjectEntity)genericDaoImpl.findById(new ProjectEntity(),projectMoney.getIdProject());
-        projectEntity.setCash(projectEntity.getCash()+projectMoney.getMoney());
-        genericDaoImpl.save(projectEntity);
+        if(projectMoney.getMoney() > 0) {
+            ProjectEntity projectEntity = (ProjectEntity) genericDaoImpl.findById(new ProjectEntity(), projectMoney.getIdProject());
+            projectEntity.setCash(projectEntity.getCash() + projectMoney.getMoney());
+            genericDaoImpl.save(projectEntity);
+        }
     }
     public void AddComment(CommentRequestDto commentRequestDto){
         System.out.println(commentRequestDto.getIdproject() + " "+ commentRequestDto.getIduser());
@@ -94,13 +99,15 @@ public class ProjectService {
                 (new ProjectEntity(),Long.parseLong(rating.getIdproject().toString()));
         UserEntity userEntity = (UserEntity) genericDaoImpl.findById
                 (new UserEntity(),Long.parseLong(rating.getIduser().toString()));
-        RatingEntity ratingEntity = (RatingEntity)genericDaoImpl.findByTwoParametr(currentProject,"RatingEntity","projectEntity","userEntite", userEntity);
+        RatingEntity ratingEntity = (RatingEntity)genericDaoImpl.findByTwoParametr(currentProject,
+                "RatingEntity","projectEntity","userEntite", userEntity);
         if(ratingEntity==null) {
             if (currentProject.getRating() == 0) {
-//            currentProject.setRating(Long.parseLong(rating.getRating().toString()));
-                genericDaoImpl.update("ProjectEntity", "idproject", currentProject.getIdproject(), "rating", rating.getRating());
+                genericDaoImpl.update("ProjectEntity", "idproject", currentProject.getIdproject(),
+                        "rating", rating.getRating());
             } else {
-                genericDaoImpl.update("ProjectEntity", "idproject", currentProject.getIdproject(), "rating",
+                genericDaoImpl.update("ProjectEntity", "idproject", currentProject.getIdproject(),
+                        "rating",
                         (currentProject.getRating() + rating.getRating()) / 2);
             }
             genericDaoImpl.save(new RatingEntity(currentProject,userEntity));
@@ -108,6 +115,7 @@ public class ProjectService {
         }
         return "You alreade give rating";
     }
+
     public void checkProject()
     {
         List<ProjectEntity> projectEntityList = genericDaoImpl.list("ProjectEntity");
@@ -127,6 +135,7 @@ public class ProjectService {
             }
         }
     }
+
     public List<ProjectEntity> searcheByTag(Object tag){
         return genericDaoImpl.findProjectByTag(tag.toString(),"TagsEntity","name");
     }

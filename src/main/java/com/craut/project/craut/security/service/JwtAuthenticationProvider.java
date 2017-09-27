@@ -17,10 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-/**
- * @author ikatlinsky
- * @since 5/12/17
- */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
@@ -33,22 +29,18 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(final Authentication authRequest) {
-        // Getting string token from authentication request object
+
         String token = StringUtils.trimToNull((String) authRequest.getCredentials());
 
-        //  Deserialize token
         TokenPayload tokenPayload = authenticationHelper.decodeToken(token);
 
-        // Checking if token already expired and throwing an AuthenticationException in this case
         checkIsExpired(tokenPayload.getExp());
 
-        // Getting user id from token
         Long userEntityId = tokenPayload.getUserId();
         if (Objects.isNull(userEntityId)) {
             throw new InvalidTokenAuthenticationException("Token does not contain a user id.");
         }
 
-        // Getting user from database
         UserEntity userEntity = (UserEntity) genericDao.findById(new UserEntity(),userEntityId);
         UserRoleEntity userRoleEntity = (UserRoleEntity)genericDao.findByParametr(userEntity,"UserRoleEntity","user");
 
@@ -56,7 +48,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             throw new InvalidTokenAuthenticationException("Token does not contain existed user id.");
         }
 
-        // Return authenticated Authentication
         JwtUserDetails userDetails = new JwtUserDetails(userRoleEntity);
         return new JwtAuthenticationToken(userDetails);
     }

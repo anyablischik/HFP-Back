@@ -23,6 +23,7 @@ public class RegistrationConroller {
     ) {
          registrationService.registration(registrtionRequestDto);
     }
+
     @GetMapping(value = "/verification")
     @ResponseStatus(value = HttpStatus.OK)
     public void verification( HttpServletResponse http,
