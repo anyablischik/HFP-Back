@@ -16,7 +16,6 @@ public class InstructionRequestDto implements Dto{
     private int rating;
     private String name;
     private String theme;
-    private String step;
     private String user;
     private String sections;
 }

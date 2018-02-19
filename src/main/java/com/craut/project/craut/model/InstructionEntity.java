@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -27,10 +28,6 @@ public class InstructionEntity {
     @JoinColumn(name = "idUser")
     private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "idStep")
-    private StepEntity step;
-
     @OneToOne
     @JoinColumn(name = "idSection")
     private InstructionSections sections;
@@ -39,11 +36,10 @@ public class InstructionEntity {
     private int rating;
 
 
-    public InstructionEntity(String nameInstruction, String theme, int rating,StepEntity step, UserEntity user, InstructionSections sections) {
+    public InstructionEntity(String nameInstruction, String theme, int rating, UserEntity user, InstructionSections sections) {
         this.nameInstruction = nameInstruction;
         this.theme = theme;
         this.rating = rating;
-        this.step = step;
         this.user = user;
         this.sections = sections;
     }

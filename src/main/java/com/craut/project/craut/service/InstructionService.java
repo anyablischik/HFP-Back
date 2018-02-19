@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +22,7 @@ public class InstructionService {
     public String save(InstructionRequestDto instructionRequestDto, List<Object> tags)
     {
         InstructionEntity instructionEntity = new InstructionEntity(instructionRequestDto.getName(), instructionRequestDto.getTheme(), instructionRequestDto.getRating(),
-                (StepEntity) genericDaoImpl.findById(new StepEntity(), Long.parseLong(instructionRequestDto.getStep().toString())),
-                (UserEntity) genericDaoImpl.findById(new UserEntity(),Long.parseLong(instructionRequestDto.getUser().toString())),
+                        (UserEntity) genericDaoImpl.findById(new UserEntity(),Long.parseLong(instructionRequestDto.getUser().toString())),
                         (InstructionSections) genericDaoImpl.findById(new InstructionSections(), Long.parseLong(instructionRequestDto.getSections().toString())));
         genericDaoImpl.save(instructionEntity);
         for(Object tag:tags){
@@ -37,7 +37,7 @@ public class InstructionService {
         InstructionEntity instructionEntity = (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),
                 Long.parseLong(idproject.toString()));
         InstructionRequestDto instructionRequestDto = new InstructionRequestDto(instructionEntity.getRating(), instructionEntity.getNameInstruction(),
-                instructionEntity.getTheme(),"" + instructionEntity.getStep().getIdStep(), ""+ instructionEntity.getUser().getIdUser(),
+                instructionEntity.getTheme(), ""+ instructionEntity.getUser().getIdUser(),
                 "" + instructionEntity.getSections().getIdSection());
         ProjectAndTagsRequestDto projectAndTagsRequestDto = new ProjectAndTagsRequestDto(instructionRequestDto,
                 genericDaoImpl.findTagByProject(instructionEntity,"TagsEntity","instructionEntity"),
