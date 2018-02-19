@@ -1,11 +1,10 @@
 package com.craut.project.craut.controller;
 
-import com.craut.project.craut.model.ProjectEntity;
+import com.craut.project.craut.model.InstructionEntity;
 import com.craut.project.craut.service.UserService;
 import com.craut.project.craut.service.dto.AuthUserDto;
 import com.craut.project.craut.service.dto.MessageRequestDto;
 import com.craut.project.craut.service.dto.RegistrtionRequestDto;
-import com.craut.project.craut.service.dto.UserListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -69,7 +68,7 @@ public class UserController {
 
     @PostMapping(value = "/searche", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public List<ProjectEntity> search(@RequestBody String search)
+    public List<InstructionEntity> search(@RequestBody String search)
     {
         return this.userService.fullTextSearch(search);
     }

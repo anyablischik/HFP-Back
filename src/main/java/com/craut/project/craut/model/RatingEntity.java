@@ -19,15 +19,15 @@ public class RatingEntity {
     private Long idrating;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idproject")
-    private ProjectEntity projectEntity;
+    @JoinColumn(name = "idInstruction")
+    private InstructionEntity instructionEntity;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "iduser")
     private UserEntity userEntite;
 
-    public RatingEntity(ProjectEntity projectEntity,UserEntity userEntite) {
-        this.projectEntity = projectEntity;
+    public RatingEntity(InstructionEntity instructionEntity, UserEntity userEntite) {
+        this.instructionEntity = instructionEntity;
         this.userEntite = userEntite;
     }
 }

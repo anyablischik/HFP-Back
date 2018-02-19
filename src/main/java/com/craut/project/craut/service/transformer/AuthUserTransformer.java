@@ -12,7 +12,7 @@ public class AuthUserTransformer {
     public AuthUserDto makeDto(final UserRoleEntity userRoleEntity) {
         AuthUserDto authUserDto = new AuthUserDto();
 
-        authUserDto.setId(userRoleEntity.getUser().getIduser());
+        authUserDto.setId(userRoleEntity.getUser().getIdUser());
         authUserDto.setFirstName(userRoleEntity.getUser().getFirstName());
         authUserDto.setLastName(userRoleEntity.getUser().getLastName());
         authUserDto.setEmail(userRoleEntity.getUser().getEmail());

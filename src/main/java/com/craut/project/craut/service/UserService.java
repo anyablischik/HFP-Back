@@ -6,13 +6,11 @@ import com.craut.project.craut.security.model.TokenPayload;
 import com.craut.project.craut.security.service.AuthenticationHelper;
 import com.craut.project.craut.service.dto.*;
 import com.craut.project.craut.service.transformer.AuthUserTransformer;
-import com.craut.project.craut.service.transformer.UserListTransformer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,14 +77,14 @@ public class UserService {
                         "userEntity"));
                 UserRoleEntity roleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,
                         "UserRoleEntity","user");
-                List<ProjectEntity> list= (List<ProjectEntity>)genericDaoImpl.findListByParametr(user,
-                        "ProjectEntity","user");
+                List<InstructionEntity> list= (List<InstructionEntity>)genericDaoImpl.findListByParametr(user,
+                        "InstructionEntity","user");
                 if(list != null) {
-                    for (ProjectEntity obj : list) {
+                    for (InstructionEntity obj : list) {
                         genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(obj,
-                                "CommentsEntity", "projectEntity"));
+                                "CommentsEntity", "instructionEntity"));
                         genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(obj,
-                                "TagsEntity", "projectEntity"));
+                                "TagsEntity", "instructionEntity"));
                         genericDaoImpl.del(obj);
                     }
                 }
@@ -100,9 +98,9 @@ public class UserService {
         Long choose = blockRequestDto.get(0);
         blockRequestDto.remove(0);
         MessageEntity messageEntity = (MessageEntity)genericDaoImpl.findById(new MessageEntity(),blockRequestDto.get(0));
-        UserEntity User = (UserEntity) genericDaoImpl.findById(new UserEntity(),messageEntity.getUser().getIduser());
+        UserEntity User = (UserEntity) genericDaoImpl.findById(new UserEntity(),messageEntity.getUser().getIdUser());
             if(choose == 0)
-                genericDaoImpl.update("UserRoleEntity","user",User.getIduser(),"role",
+                genericDaoImpl.update("UserRoleEntity","user",User.getIdUser(),"role",
                         3);
             genericDaoImpl.del(messageEntity);
         return "success";
@@ -116,9 +114,9 @@ public class UserService {
         genericDaoImpl.save(messageEntity);
         return "success";
     }
-    public List<ProjectEntity> fullTextSearch(String search)
+    public List<InstructionEntity> fullTextSearch(String search)
     {
-        List <ProjectEntity> list = new ArrayList<>();
+        List <InstructionEntity> list = new ArrayList<>();
         list = genericDaoImpl.fullTextSearch(search,"project","name,purpose,content", 0, list);
         list = genericDaoImpl.fullTextSearch(search,"comments","comment", 2,list);
         list = genericDaoImpl.fullTextSearch(search,"tags","name", 2,list);

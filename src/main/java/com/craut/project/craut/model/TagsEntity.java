@@ -20,11 +20,11 @@ public class TagsEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "idproject")
-    private ProjectEntity projectEntity;
+    @JoinColumn(name = "idInstruction")
+    private InstructionEntity instructionEntity;
 
-    public TagsEntity(String tagsName,ProjectEntity projectEntity) {
-        this.projectEntity = projectEntity;
+    public TagsEntity(String tagsName,InstructionEntity instructionEntity) {
+        this.instructionEntity = instructionEntity;
         this.name = tagsName;
     }
 }

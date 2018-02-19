@@ -2,7 +2,6 @@ package com.craut.project.craut.repository;
 
 import com.craut.project.craut.model.*;
 import com.craut.project.craut.service.dto.CommentResponseDto;
-import com.craut.project.craut.service.dto.ProjectRequestDto;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,25 +62,25 @@ public class GenericDaoImpl<T>   {
         return object;
     }
 
-    public List<ProjectEntity> findProjectByTag(String tag, String tableName,String parametr) {
+    public List<InstructionEntity> findProjectByTag(String tag, String tableName, String parametr) {
         Session session =getSession();
         String q="FROM "+tableName+" m WHERE m."+parametr+"=:"+parametr;
         Query query=session.createQuery(q);
         query.setParameter(parametr,tag);
 
         List<TagsEntity> object=query.list();
-        List<ProjectEntity> list = new ArrayList<>();
+        List<InstructionEntity> list = new ArrayList<>();
         if(object!=null &&!object.isEmpty()){
             for(TagsEntity obj:object)
             {
-                list.add(obj.getProjectEntity());
+                list.add(obj.getInstructionEntity());
             }
             return list;
         }else{
             return null;
         }
     }
-    public ArrayList<Object> findTagByProject(ProjectEntity project, String tableName,String parametr) {
+    public ArrayList<Object> findTagByProject(InstructionEntity project, String tableName, String parametr) {
         Session session =getSession();
         String q="FROM "+tableName+" m WHERE m."+parametr+"=:"+parametr;
         Query query=session.createQuery(q);
@@ -98,7 +97,7 @@ public class GenericDaoImpl<T>   {
             return null;
         }
     }
-    public CommentResponseDto findCommentByProject(ProjectEntity project, String tableName, String parametr) {
+    public CommentResponseDto findCommentByProject(InstructionEntity project, String tableName, String parametr) {
         Session session =getSession();
         String q="FROM "+tableName+" m WHERE m."+parametr+"=:"+parametr;
         Query query=session.createQuery(q);
@@ -167,17 +166,17 @@ public class GenericDaoImpl<T>   {
             session.delete(obj);
         }
     }
-    //    public List<ProjectRequestDto> fullTextSearch(String search){
+    //    public List<InstructionRequestDto> fullTextSearch(String search){
 //        Session session = getSession();
 //        Query query = session.createSQLQuery("SELECT * FROM project WHERE MATCH (name,content,purpose) AGAINST ('*"+search+"*' IN BOOLEAN MODE)");
-//        List<ProjectRequestDto> object = query.list();
+//        List<InstructionRequestDto> object = query.list();
 //        return object;
 //    }
-    public ProjectEntity findById(ProjectEntity t, Long id) {
+    public InstructionEntity findById(InstructionEntity t, Long id) {
         Session session =getSession();
-        return (ProjectEntity)session.get(t.getClass(),id);
+        return (InstructionEntity)session.get(t.getClass(),id);
     }
-    public List<ProjectEntity> fullTextSearch(String search,String tableName,String param,int position,List<ProjectEntity> projectEntities){
+    public List<InstructionEntity> fullTextSearch(String search, String tableName, String param, int position, List<InstructionEntity> projectEntities){
         Session session = getSession();
         Query query = session.createSQLQuery("SELECT * FROM "+ tableName+" WHERE MATCH ("+param+") AGAINST ('*"+search+"*' IN BOOLEAN MODE)");
         List<Object[]> object = query.list();
@@ -186,10 +185,10 @@ public class GenericDaoImpl<T>   {
             for (Object[] objects : object) {
                 String stringToConvert = String.valueOf(objects[position]);
                 Long convertedLong = Long.parseLong(stringToConvert);
-                ProjectEntity projectEntity = (ProjectEntity) findById(new ProjectEntity(), convertedLong);
-                if(!projectEntities.contains(projectEntity))
+                InstructionEntity instructionEntity = (InstructionEntity) findById(new InstructionEntity(), convertedLong);
+                if(!projectEntities.contains(instructionEntity))
                 {
-                    projectEntities.add(projectEntity);
+                    projectEntities.add(instructionEntity);
                 }
             }
             return projectEntities;
@@ -226,7 +225,7 @@ public class GenericDaoImpl<T>   {
 
     }
 
-//    public List<ProjectEntity> fullTextSearch(String searchQuery) {
+//    public List<InstructionEntity> fullTextSearch(String searchQuery) {
 //        FullTextSession fullTextSession = Search.getFullTextSession(getSession());
 //        try {
 //            fullTextSession.createIndexer().startAndWait();
@@ -238,12 +237,12 @@ public class GenericDaoImpl<T>   {
 //        }
 //        FullTextSession fullTextEntityManager = Search.getFullTextSession(sessionFactory.getCurrentSession());
 //        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder()
-//                .forEntity(com.craut.project.craut.model.ProjectEntity.class).get();
-//        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(createQuery(queryBuilder, searchQuery), ProjectEntity.class);
+//                .forEntity(com.craut.project.craut.model.InstructionEntity.class).get();
+//        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(createQuery(queryBuilder, searchQuery), InstructionEntity.class);
 //        jpaQuery.setFirstResult(0);
 //        jpaQuery.setMaxResults(1000);
 ////        "unchecked"
-//        List<ProjectEntity> result = jpaQuery.getResultList();
+//        List<InstructionEntity> result = jpaQuery.getResultList();
 //        return result;
 //    }
 //    private org.apache.lucene.search.Query createQuery(QueryBuilder queryBuilder, String searchQuery) {

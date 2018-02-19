@@ -21,16 +21,16 @@ public class CommentsEntity {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "projectid")
-    private ProjectEntity projectEntity;
+    @JoinColumn(name = "instructionid")
+    private InstructionEntity instructionEntity;
 
     @ManyToOne
     @JoinColumn(name = "userid")
     private UserEntity userEntity;
 
-    public CommentsEntity(String comment, ProjectEntity projectEntity, UserEntity userEntity) {
+    public CommentsEntity(String comment, InstructionEntity instructionEntity, UserEntity userEntity) {
         this.comment = comment;
-        this.projectEntity = projectEntity;
+        this.instructionEntity = instructionEntity;
         this.userEntity = userEntity;
     }
 }

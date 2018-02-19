@@ -6,19 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collection;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectRequestDto implements Dto{
-    private String content;
-    private String dwy;
-    private String image;
-    private int money;
+public class InstructionRequestDto implements Dto{
     private int rating;
     private String name;
-    private String purpose;
+    private String theme;
+    private String step;
     private String user;
-    private String status;
-    private int cash;
+    private String sections;
 }
