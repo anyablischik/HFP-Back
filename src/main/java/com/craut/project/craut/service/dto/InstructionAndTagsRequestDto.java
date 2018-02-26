@@ -9,9 +9,12 @@ import java.util.ArrayList;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectAndTagsRequestDto implements Dto {
-    private InstructionRequestDto instructionRequestDto;
+public class InstructionAndTagsRequestDto implements Dto {
     private ArrayList<Object> tags;
-    private ArrayList<Object> comment;
-    private ArrayList<UserEntity> user;
+    private ArrayList<Object> steps;
+    private SectionDto section;
+    private Integer userId;
+    private Integer rating;
+    private String title;
+    private Long id;
 }

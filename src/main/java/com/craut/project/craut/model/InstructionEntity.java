@@ -21,9 +21,6 @@ public class InstructionEntity {
     @Column(name = "nameInstruction")
     private String nameInstruction;
 
-    @Column(name = "theme")
-    private String theme;
-
     @ManyToOne
     @JoinColumn(name = "idUser")
     private UserEntity user;
@@ -36,9 +33,9 @@ public class InstructionEntity {
     private int rating;
 
 
-    public InstructionEntity(String nameInstruction, String theme, int rating, UserEntity user, InstructionSections sections) {
+    public InstructionEntity(Long idInstruction, String nameInstruction, int rating, UserEntity user, InstructionSections sections) {
+        this.idInstruction = idInstruction;
         this.nameInstruction = nameInstruction;
-        this.theme = theme;
         this.rating = rating;
         this.user = user;
         this.sections = sections;

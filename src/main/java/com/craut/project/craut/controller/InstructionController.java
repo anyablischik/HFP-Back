@@ -13,15 +13,15 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ProjectController {
+public class InstructionController {
 
     private final InstructionService instructionService;
 
-    @PreAuthorize("hasRole('ROLE_VER')")
+//    @PreAuthorize("hasRole('ROLE_VER')")
     @PostMapping(value = "/sendData", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public String finalAll(@RequestBody ProjectAndTagsRequestDto projectRequestDto) {
-        return this.instructionService.save(projectRequestDto.getInstructionRequestDto(), projectRequestDto.getTags());
+    public String finalAll(@RequestBody InstructionAndTagsRequestDto projectRequestDto) {
+        return this.instructionService.save(projectRequestDto.getId(), projectRequestDto.getTags(), projectRequestDto.getSteps(), projectRequestDto.getSection(), projectRequestDto.getUserId(), projectRequestDto.getRating(), projectRequestDto.getTitle());
     }
 
     @PostMapping(value = "/getProjects", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,12 +44,12 @@ public class ProjectController {
         return this.instructionService.searcheByTag(tag);
     }
 
-    @PostMapping(value = "/idProject", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public ProjectAndTagsRequestDto getIdProject(
-            @RequestBody final Object idproject) {
-        return  instructionService.getProject(idproject);
-    }
+//    @PostMapping(value = "/idProject", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    public InstructionAndTagsRequestDto getIdProject(
+//            @RequestBody final Object idproject) {
+//        return  instructionService.getProject(idproject);
+//    }
 
     @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
     @PostMapping(value = "/comment", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,14 +58,6 @@ public class ProjectController {
         instructionService.AddComment(commentRequestDto);
         return "success";
     }
-
-//    @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
-//    @PostMapping(value = "/projectMoney", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    public String addMoney(@RequestBody final ProjectMoney projectMoney) {
-//        projectService.addMoney(projectMoney);
-//        return "success";
-//    }
 
     @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
     @PostMapping(value = "/rating", produces = MediaType.APPLICATION_JSON_VALUE)

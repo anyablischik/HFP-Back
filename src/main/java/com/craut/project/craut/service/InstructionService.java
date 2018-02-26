@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -19,11 +17,13 @@ import java.util.List;
 public class InstructionService {
     @Autowired
     GenericDaoImpl genericDaoImpl;
-    public String save(InstructionRequestDto instructionRequestDto, List<Object> tags)
+    public String save(Long id, List<Object> tags, List<Object> steps, SectionDto section, Integer userId, Integer rating, String title)
     {
-        InstructionEntity instructionEntity = new InstructionEntity(instructionRequestDto.getName(), instructionRequestDto.getTheme(), instructionRequestDto.getRating(),
-                        (UserEntity) genericDaoImpl.findById(new UserEntity(),Long.parseLong(instructionRequestDto.getUser().toString())),
-                        (InstructionSections) genericDaoImpl.findById(new InstructionSections(), Long.parseLong(instructionRequestDto.getSections().toString())));
+        InstructionSections instructionSections = new InstructionSections(section.getId(), section.getTitle());
+        genericDaoImpl.save(instructionSections);
+        InstructionEntity instructionEntity = new InstructionEntity(id, title, rating,
+                        (UserEntity) genericDaoImpl.findById(new UserEntity(),Long.parseLong(userId.toString())),
+                        (InstructionSections) genericDaoImpl.findById(new InstructionSections(), section.getId()));
         genericDaoImpl.save(instructionEntity);
         for(Object tag:tags){
             tag = tag.toString().split("value=")[1].split("}")[0];
@@ -32,19 +32,30 @@ public class InstructionService {
         }
         return "success";
     }
-
-    public ProjectAndTagsRequestDto getProject(Object idproject){
-        InstructionEntity instructionEntity = (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),
-                Long.parseLong(idproject.toString()));
-        InstructionRequestDto instructionRequestDto = new InstructionRequestDto(instructionEntity.getRating(), instructionEntity.getNameInstruction(),
-                instructionEntity.getTheme(), ""+ instructionEntity.getUser().getIdUser(),
-                "" + instructionEntity.getSections().getIdSection());
-        ProjectAndTagsRequestDto projectAndTagsRequestDto = new ProjectAndTagsRequestDto(instructionRequestDto,
-                genericDaoImpl.findTagByProject(instructionEntity,"TagsEntity","instructionEntity"),
-                genericDaoImpl.findCommentByProject(instructionEntity,"CommentsEntity","instructionEntity").getComment(),
-                genericDaoImpl.findCommentByProject(instructionEntity,"CommentsEntity","instructionEntity").getUser());
-        return projectAndTagsRequestDto;
-    }
+//    public String save(InstructionRequestDto instructionRequestDto, List<Object> tags)
+//    {
+//        InstructionEntity instructionEntity = new InstructionEntity(instructionRequestDto.getName(), instructionRequestDto.getTheme(), instructionRequestDto.getRating(),
+//                (UserEntity) genericDaoImpl.findById(new UserEntity(),Long.parseLong(instructionRequestDto.getUser().toString())),
+//                (InstructionSections) genericDaoImpl.findById(new InstructionSections(), Long.parseLong(instructionRequestDto.getSections().toString())));
+//        genericDaoImpl.save(instructionEntity);
+//        for(Object tag:tags){
+//            tag = tag.toString().split("value=")[1].split("}")[0];
+//            TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);
+//            genericDaoImpl.save(tagsEntity);
+//        }
+//        return "success";
+//    }
+//    public InstructionAndTagsRequestDto getProject(Object idproject){
+//        InstructionEntity instructionEntity = (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),
+//                Long.parseLong(idproject.toString()));
+//        InstructionRequestDto instructionRequestDto = new InstructionRequestDto(instructionEntity.getRating(), instructionEntity.getNameInstruction(), ""+ instructionEntity.getUser().getIdUser(),
+//                "" + instructionEntity.getSections().getIdSection());
+//        InstructionAndTagsRequestDto instructionAndTagsRequestDto = new InstructionAndTagsRequestDto(instructionRequestDto,
+//                genericDaoImpl.findTagByProject(instructionEntity,"TagsEntity","instructionEntity"),
+//                genericDaoImpl.findCommentByProject(instructionEntity,"CommentsEntity","instructionEntity").getComment(),
+//                genericDaoImpl.findCommentByProject(instructionEntity,"CommentsEntity","instructionEntity").getUser());
+//        return instructionAndTagsRequestDto;
+//    }
 
     public void AddComment(CommentRequestDto commentRequestDto){
         System.out.println(commentRequestDto.getIdproject() + " "+ commentRequestDto.getIduser());
