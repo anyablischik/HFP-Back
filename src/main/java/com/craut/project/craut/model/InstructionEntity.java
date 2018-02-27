@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -33,8 +32,7 @@ public class InstructionEntity {
     private int rating;
 
 
-    public InstructionEntity(Long idInstruction, String nameInstruction, int rating, UserEntity user, InstructionSections sections) {
-        this.idInstruction = idInstruction;
+    public InstructionEntity(String nameInstruction, int rating, UserEntity user, InstructionSections sections) {
         this.nameInstruction = nameInstruction;
         this.rating = rating;
         this.user = user;

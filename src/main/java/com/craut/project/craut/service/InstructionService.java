@@ -19,14 +19,13 @@ public class InstructionService {
     GenericDaoImpl genericDaoImpl;
     public String save(Long id, List<Object> tags, List<Object> steps, SectionDto section, Integer userId, Integer rating, String title)
     {
-        InstructionSections instructionSections = new InstructionSections(section.getId(), section.getTitle());
+        InstructionSections instructionSections = new InstructionSections(section.getTitle());
         genericDaoImpl.save(instructionSections);
-        InstructionEntity instructionEntity = new InstructionEntity(id, title, rating,
+        InstructionEntity instructionEntity = new InstructionEntity(title, rating,
                         (UserEntity) genericDaoImpl.findById(new UserEntity(),Long.parseLong(userId.toString())),
                         (InstructionSections) genericDaoImpl.findById(new InstructionSections(), section.getId()));
         genericDaoImpl.save(instructionEntity);
         for(Object tag:tags){
-            tag = tag.toString().split("value=")[1].split("}")[0];
             TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);
             genericDaoImpl.save(tagsEntity);
         }

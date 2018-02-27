@@ -21,8 +21,7 @@ public class InstructionSections {
     private String nameSection;
 
 
-    public InstructionSections(Long idSection, String nameSection) {
+    public InstructionSections(String nameSection) {
         this.nameSection = nameSection;
-        this.idSection = idSection;
     }
 }
