@@ -17,7 +17,7 @@ import java.util.*;
 public class InstructionService {
     @Autowired
     GenericDaoImpl genericDaoImpl;
-    public String save(Long id, List<Object> tags, List<Object> steps, SectionDto section, Integer userId, Integer rating, String title)
+    public String save(Long id, List<Object> tags, List<StepDto> steps, SectionDto section, Integer userId, Integer rating, String title)
     {
         InstructionSections instructionSections = new InstructionSections(section.getTitle());
         genericDaoImpl.save(instructionSections);
@@ -28,6 +28,10 @@ public class InstructionService {
         for(Object tag:tags){
             TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);
             genericDaoImpl.save(tagsEntity);
+        }
+        for(StepDto step: steps){
+            StepEntity stepEntity = new StepEntity(step.getName(),step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), step.getInstructionId()));
+            genericDaoImpl.save(stepEntity);
         }
         return "success";
     }

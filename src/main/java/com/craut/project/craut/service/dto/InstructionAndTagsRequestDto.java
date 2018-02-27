@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class InstructionAndTagsRequestDto implements Dto {
     private ArrayList<Object> tags;
-    private ArrayList<Object> steps;
+    private ArrayList<StepDto> steps;
     private SectionDto section;
     private Integer userId;
     private Integer rating;
