@@ -27,13 +27,17 @@ public class StepEntity {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "position")
+    private Integer position;
+
     @ManyToOne
     @JoinColumn(name = "idInstruction")
     private InstructionEntity instruction;
 
 
-    public StepEntity(String nameStep, String image, String text, InstructionEntity instruction) {
+    public StepEntity(String nameStep, String image, String text, InstructionEntity instruction, Integer position) {
         this.nameStep = nameStep;
+        this.position = position;
         this.image = image;
         this.text = text;
         this.instruction = instruction;

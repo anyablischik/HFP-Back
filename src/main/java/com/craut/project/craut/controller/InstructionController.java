@@ -18,10 +18,16 @@ public class InstructionController {
     private final InstructionService instructionService;
 
 //    @PreAuthorize("hasRole('ROLE_VER')")
-    @PostMapping(value = "/createStep", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/createInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public String finalAll(@RequestBody InstructionAndTagsRequestDto projectRequestDto) {
-        return this.instructionService.save(projectRequestDto.getId(), projectRequestDto.getTags(), projectRequestDto.getSteps(), projectRequestDto.getSection(), projectRequestDto.getUserId(), projectRequestDto.getRating(), projectRequestDto.getTitle());
+        return this.instructionService.save(projectRequestDto.getTags(), projectRequestDto.getSteps(), projectRequestDto.getSection(), projectRequestDto.getUserId(), projectRequestDto.getRating(), projectRequestDto.getTitle());
+    }
+
+    @PostMapping(value = "/createStep", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public String createStep(@RequestBody StepDto data) {
+        return this.instructionService.save(data);
     }
 
     @PostMapping(value = "/updateStep", produces = MediaType.APPLICATION_JSON_VALUE)

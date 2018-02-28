@@ -17,7 +17,7 @@ import java.util.*;
 public class InstructionService {
     @Autowired
     GenericDaoImpl genericDaoImpl;
-    public String save(Long id, List<Object> tags, List<StepDto> steps, SectionDto section, Integer userId, Integer rating, String title)
+    public String save(List<Object> tags, List<StepDto> steps, SectionDto section, Integer userId, Integer rating, String title)
     {
         InstructionSections instructionSections = new InstructionSections(section.getTitle());
         genericDaoImpl.save(instructionSections);
@@ -30,9 +30,16 @@ public class InstructionService {
             genericDaoImpl.save(tagsEntity);
         }
         for(StepDto step: steps){
-            StepEntity stepEntity = new StepEntity(step.getName(),step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), step.getInstructionId()));
+            StepEntity stepEntity = new StepEntity(step.getName(), step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), step.getInstructionId()),step.getPosition());
             genericDaoImpl.save(stepEntity);
         }
+        return "success";
+    }
+
+    public String save(StepDto step)
+    {
+        StepEntity stepEntity = new StepEntity(step.getName(), step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), step.getInstructionId()),step.getPosition());
+        genericDaoImpl.save(stepEntity);
         return "success";
     }
 
@@ -41,6 +48,7 @@ public class InstructionService {
         stepEntity.setNameStep(step.getName());
         stepEntity.setImage(step.getImage().toString());
         stepEntity.setText(step.getText());
+        stepEntity.setPosition(step.getPosition());
         stepEntity.setInstruction((InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),step.getInstructionId()));
         genericDaoImpl.save(stepEntity);
         return "success";
