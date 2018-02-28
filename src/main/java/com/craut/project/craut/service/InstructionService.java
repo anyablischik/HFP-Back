@@ -35,6 +35,16 @@ public class InstructionService {
         }
         return "success";
     }
+
+    public String updateStep(StepDto step){
+        StepEntity stepEntity = (StepEntity) genericDaoImpl.findById(new StepEntity(), step.getId());
+        stepEntity.setNameStep(step.getName());
+        stepEntity.setImage(step.getImage().toString());
+        stepEntity.setText(step.getText());
+        stepEntity.setInstruction((InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),step.getInstructionId()));
+        genericDaoImpl.save(stepEntity);
+        return "success";
+    }
 //    public String save(InstructionRequestDto instructionRequestDto, List<Object> tags)
 //    {
 //        InstructionEntity instructionEntity = new InstructionEntity(instructionRequestDto.getName(), instructionRequestDto.getTheme(), instructionRequestDto.getRating(),

@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String[] allowedUrlsForPost = new String[]{ "/login","/registration","/idProject",
             "/searcheTag", "/tags","/getProjects","/searche"};
     private static final String[] allowedUrlsForGet = new String[]{ "/verification","/verification&token=**" };
+    private static final String[] allowedUrlsForPut = new String[]{ "/updateStep" };
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     private final UserDetailsService userDetailsService;
@@ -80,6 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers(HttpMethod.POST, allowedUrlsForPost)
                 .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers(HttpMethod.PUT, allowedUrlsForPut)
                 .antMatchers(HttpMethod.GET, allowedUrlsForGet);
     }
 
