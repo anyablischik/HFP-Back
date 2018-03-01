@@ -17,20 +17,29 @@ import java.util.*;
 public class InstructionService {
     @Autowired
     GenericDaoImpl genericDaoImpl;
-    public String save(List<Object> tags, List<StepDto> steps, SectionDto section, Integer userId, Integer rating, String title)
+    public String save(List<Object> tags, List<StepDto> steps, SectionDto section, Long userId, Integer rating, String title)
     {
-        InstructionSections instructionSections = new InstructionSections(section.getTitle());
-        genericDaoImpl.save(instructionSections);
-        InstructionEntity instructionEntity = new InstructionEntity(title, rating,
-                        (UserEntity) genericDaoImpl.findById(new UserEntity(),Long.parseLong(userId.toString())),
-                        (InstructionSections) genericDaoImpl.findById(new InstructionSections(), section.getId()));
-        genericDaoImpl.save(instructionEntity);
-        for(Object tag:tags){
-            TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);
-            genericDaoImpl.save(tagsEntity);
+        if(rating != null) {
+            rating = 0;
         }
+            InstructionSections instructionSections = new InstructionSections(section.getTitle());
+            genericDaoImpl.save(instructionSections);
+            InstructionEntity instructionEntity = new InstructionEntity(title, rating,
+                    (UserEntity) genericDaoImpl.findById(new UserEntity(), userId),
+                    (InstructionSections) genericDaoImpl.findById(new InstructionSections(), section.getId()));
+            genericDaoImpl.save(instructionEntity);
+        if(tags != null) {
+            for (Object tag : tags) {
+                TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);
+                genericDaoImpl.save(tagsEntity);
+            }
+        }
+
         for(StepDto step: steps){
-            StepEntity stepEntity = new StepEntity(step.getName(), step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), step.getInstructionId()),step.getPosition());
+            if(step.getImage() == null){
+                step.setImage("");
+            }
+            StepEntity stepEntity = new StepEntity(step.getName(), step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), instructionEntity.getIdInstruction()),step.getPosition());
             genericDaoImpl.save(stepEntity);
         }
         return "success";
@@ -51,6 +60,27 @@ public class InstructionService {
         stepEntity.setPosition(step.getPosition());
         stepEntity.setInstruction((InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),step.getInstructionId()));
         genericDaoImpl.save(stepEntity);
+        return "success";
+    }
+
+    public String updateInstruction(InstructionAndTagsRequestDto data){
+        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), data.getId());
+        instructionEntity.setNameInstruction(data.getTitle());
+        instructionEntity.setRating(data.getRating());
+        instructionEntity.setUser((UserEntity)genericDaoImpl.findById(new UserEntity(), data.getUserId()));
+        instructionEntity.setSections((InstructionSections)genericDaoImpl.findById(new InstructionSections(), data.getSection().getId()));
+
+        InstructionSections instructionSections = (InstructionSections) genericDaoImpl.findById(new InstructionSections(), data.getSection().getId());
+        instructionSections.setNameSection(data.getSection().getTitle());
+
+        for(Object tag:data.getTags()){
+            TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);
+            genericDaoImpl.save(tagsEntity);
+        }
+
+        for (StepDto step: data.getSteps()){
+            updateStep(step);
+        }
         return "success";
     }
 //    public String save(InstructionRequestDto instructionRequestDto, List<Object> tags)

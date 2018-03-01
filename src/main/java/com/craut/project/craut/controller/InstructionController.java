@@ -36,6 +36,12 @@ public class InstructionController {
         return instructionService.updateStep(data);
     }
 
+    @PostMapping(value = "/updateInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public String updateStep(@RequestBody final InstructionAndTagsRequestDto data) {
+        return instructionService.updateInstruction(data);
+    }
+
     @PostMapping(value = "/getProjects", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionRequestDto> projects(@RequestBody final Long data) {

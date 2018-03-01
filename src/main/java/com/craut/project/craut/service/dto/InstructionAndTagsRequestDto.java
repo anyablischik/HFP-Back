@@ -13,7 +13,7 @@ public class InstructionAndTagsRequestDto implements Dto {
     private ArrayList<Object> tags;
     private ArrayList<StepDto> steps;
     private SectionDto section;
-    private Integer userId;
+    private Long userId;
     private Integer rating;
     private String title;
     private Long id;
