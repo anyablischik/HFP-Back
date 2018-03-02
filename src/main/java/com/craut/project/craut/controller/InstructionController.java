@@ -80,6 +80,12 @@ public class InstructionController {
         return this.instructionService.deleteStep(id);
     }
 
+    @PostMapping(value = "/deleteInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public String deleteInstruction(@RequestBody Object id) {
+        return this.instructionService.deleteInstruction(id);
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
     @PostMapping(value = "/comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)

@@ -134,6 +134,16 @@ public class InstructionService {
         return "succes";
     }
 
+    public String deleteInstruction(Object id){
+        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), Long.parseLong(id.toString()));
+        genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(instructionEntity,
+                "TagsEntity", "instructionEntity"));
+        genericDaoImpl.deleteList((ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"));
+//        genericDaoImpl.del(genericDaoImpl.findByParametr(instructionEntity, "RatingEntity", "instructionEntity"));
+        genericDaoImpl.del(instructionEntity);
+        return "succes";
+    }
+
     public void AddComment(CommentRequestDto commentRequestDto){
         System.out.println(commentRequestDto.getIdproject() + " "+ commentRequestDto.getIduser());
         InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(),commentRequestDto.getIdproject());
