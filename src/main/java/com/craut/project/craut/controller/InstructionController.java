@@ -52,7 +52,7 @@ public class InstructionController {
         return instructionService.getSections();
     }
 
-    @GetMapping(value = "/idInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public InstructionAndTagsRequestDto getIdProject(@PathVariable("id") long id) {
         return  instructionService.getInstruction(id);

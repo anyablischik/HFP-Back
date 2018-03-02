@@ -22,11 +22,9 @@ public class InstructionService {
         if(rating == null) {
             rating = 0;
         }
-            InstructionSections instructionSections = new InstructionSections(section.getTitle());
-            genericDaoImpl.save(instructionSections);
             InstructionEntity instructionEntity = new InstructionEntity(title, rating,
                     (UserEntity) genericDaoImpl.findById(new UserEntity(), userId),
-                    (InstructionSections) genericDaoImpl.findById(new InstructionSections(), instructionSections.getIdSection()));
+                    (InstructionSections) genericDaoImpl.findById(new InstructionSections(), section.getId()));
             genericDaoImpl.save(instructionEntity);
         if(tags != null) {
             for (Object tag : tags) {
