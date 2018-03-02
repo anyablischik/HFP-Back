@@ -54,8 +54,8 @@ public class InstructionService {
         return step;
     }
 
-    public StepDto updateStep(StepDto step){
-        StepEntity stepEntity = (StepEntity) genericDaoImpl.findById(new StepEntity(), step.getId());
+    public StepDto updateStep(Long id, StepDto step){
+        StepEntity stepEntity = (StepEntity) genericDaoImpl.findById(new StepEntity(), id);
         stepEntity.setNameStep(step.getName());
         if(step.getImage() == null){
             step.setImage("");
@@ -68,8 +68,8 @@ public class InstructionService {
         return step;
     }
 
-    public InstructionAndTagsRequestDto updateInstruction(InstructionAndTagsRequestDto data){
-        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), data.getId());
+    public InstructionAndTagsRequestDto updateInstruction(Long id, InstructionAndTagsRequestDto data){
+        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), id);
         instructionEntity.setNameInstruction(data.getTitle());
         instructionEntity.setRating(data.getRating());
         instructionEntity.setUser((UserEntity)genericDaoImpl.findById(new UserEntity(), data.getUserId()));
@@ -86,7 +86,7 @@ public class InstructionService {
         }
 
         for (StepDto step: data.getSteps()){
-            updateStep(step);
+            updateStep(step.getId(), step);
         }
         return data;
     }

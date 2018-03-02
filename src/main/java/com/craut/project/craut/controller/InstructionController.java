@@ -30,16 +30,16 @@ public class InstructionController {
         return this.instructionService.save(data);
     }
 
-    @PostMapping(value = "/updateStep", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/updateStep/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public StepDto updateStep(@RequestBody final StepDto data) {
-        return instructionService.updateStep(data);
+    public StepDto updateStep(@PathVariable("id") long id, @RequestBody final StepDto data) {
+        return instructionService.updateStep(id, data);
     }
 
-    @PostMapping(value = "/updateInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/updateInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public InstructionAndTagsRequestDto updateStep(@RequestBody final InstructionAndTagsRequestDto data) {
-        return instructionService.updateInstruction(data);
+    public InstructionAndTagsRequestDto updateStep(@PathVariable("id") long id, @RequestBody final InstructionAndTagsRequestDto data) {
+        return instructionService.updateInstruction(id, data);
     }
 
     @RequestMapping(value = "/getStep/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,22 +65,21 @@ public class InstructionController {
         return instructionService.getUserProjects(data);
     }
 
+    @DeleteMapping(value = "/deleteStep/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteStep(@PathVariable("id") long id) {
+        return this.instructionService.deleteStep(id);
+    }
+
+    @DeleteMapping(value = "/deleteInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteInstruction(@PathVariable("id") long id) {
+        return this.instructionService.deleteInstruction(id);
+    }
+
+
     @PostMapping(value = "/searcheTag", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionEntity> finalAll(@RequestBody Object tag) {
         return this.instructionService.searcheByTag(tag);
-    }
-
-    @PostMapping(value = "/deleteStep", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public String deleteStep(@RequestBody Object id) {
-        return this.instructionService.deleteStep(id);
-    }
-
-    @PostMapping(value = "/deleteInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public String deleteInstruction(@RequestBody Object id) {
-        return this.instructionService.deleteInstruction(id);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
