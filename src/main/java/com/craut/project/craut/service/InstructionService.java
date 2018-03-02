@@ -117,6 +117,17 @@ public class InstructionService {
         return instructionAndTagsRequestDto;
     }
 
+    public List<SectionDto> getSections(){
+        return genericDaoImpl.list("InstructionSections");
+    }
+
+    public StepDto getStep(Object idStep){
+        StepEntity stepEntity = (StepEntity)genericDaoImpl.findById(new StepEntity(), Long.parseLong(idStep.toString()));
+                StepDto stepDto = new StepDto(stepEntity.getIdStep(), stepEntity.getPosition(),
+                        stepEntity.getNameStep(), stepEntity.getText(), stepEntity.getImage(), stepEntity.getIdStep());
+                return stepDto;
+    }
+
     public void AddComment(CommentRequestDto commentRequestDto){
         System.out.println(commentRequestDto.getIdproject() + " "+ commentRequestDto.getIduser());
         InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(),commentRequestDto.getIdproject());
@@ -134,9 +145,7 @@ public class InstructionService {
 
     }
 
-    public List<SectionDto> getSections(){
-        return genericDaoImpl.list("InstructionSections");
-    }
+
 
     public List<InstructionRequestDto> getUserProjects(Object data){
         return genericDaoImpl.findListByParametr((UserEntity)genericDaoImpl.findById(new UserEntity(),
