@@ -17,7 +17,7 @@ import java.util.*;
 public class InstructionService {
     @Autowired
     GenericDaoImpl genericDaoImpl;
-    public String save(List<Object> tags, List<StepDto> steps, SectionDto section, Long userId, Integer rating, String title)
+    public InstructionAndTagsRequestDto save(InstructionAndTagsRequestDto instructionAndTagsRequestDto, List<Object> tags, List<StepDto> steps, SectionDto section, Long userId, Integer rating, String title)
     {
         if(rating == null) {
             rating = 0;
@@ -42,17 +42,17 @@ public class InstructionService {
             StepEntity stepEntity = new StepEntity(step.getName(), step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), instructionEntity.getIdInstruction()),step.getPosition());
             genericDaoImpl.save(stepEntity);
         }
-        return "success";
+        return instructionAndTagsRequestDto;
     }
 
-    public String save(StepDto step)
+    public StepDto save(StepDto step)
     {
         StepEntity stepEntity = new StepEntity(step.getName(), step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), step.getInstructionId()),step.getPosition());
         genericDaoImpl.save(stepEntity);
-        return "success";
+        return step;
     }
 
-    public String updateStep(StepDto step){
+    public StepDto updateStep(StepDto step){
         StepEntity stepEntity = (StepEntity) genericDaoImpl.findById(new StepEntity(), step.getId());
         stepEntity.setNameStep(step.getName());
         if(step.getImage() == null){
@@ -63,10 +63,10 @@ public class InstructionService {
         stepEntity.setPosition(step.getPosition());
         stepEntity.setInstruction((InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),step.getInstructionId()));
         genericDaoImpl.save(stepEntity);
-        return "success";
+        return step;
     }
 
-    public String updateInstruction(InstructionAndTagsRequestDto data){
+    public InstructionAndTagsRequestDto updateInstruction(InstructionAndTagsRequestDto data){
         InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), data.getId());
         instructionEntity.setNameInstruction(data.getTitle());
         instructionEntity.setRating(data.getRating());
@@ -86,7 +86,7 @@ public class InstructionService {
         for (StepDto step: data.getSteps()){
             updateStep(step);
         }
-        return "success";
+        return data;
     }
 
 

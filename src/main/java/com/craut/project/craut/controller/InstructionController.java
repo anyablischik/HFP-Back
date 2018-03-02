@@ -20,25 +20,25 @@ public class InstructionController {
 //    @PreAuthorize("hasRole('ROLE_VER')")
     @PostMapping(value = "/createInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public String finalAll(@RequestBody InstructionAndTagsRequestDto projectRequestDto) {
-        return this.instructionService.save(projectRequestDto.getTags(), projectRequestDto.getSteps(), projectRequestDto.getSection(), projectRequestDto.getUserId(), projectRequestDto.getRating(), projectRequestDto.getTitle());
+    public InstructionAndTagsRequestDto finalAll(@RequestBody InstructionAndTagsRequestDto projectRequestDto) {
+        return this.instructionService.save(projectRequestDto, projectRequestDto.getTags(), projectRequestDto.getSteps(), projectRequestDto.getSection(), projectRequestDto.getUserId(), projectRequestDto.getRating(), projectRequestDto.getTitle());
     }
 
     @PostMapping(value = "/createStep", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public String createStep(@RequestBody StepDto data) {
+    public StepDto createStep(@RequestBody StepDto data) {
         return this.instructionService.save(data);
     }
 
     @PostMapping(value = "/updateStep", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public String updateStep(@RequestBody final StepDto data) {
+    public StepDto updateStep(@RequestBody final StepDto data) {
         return instructionService.updateStep(data);
     }
 
     @PostMapping(value = "/updateInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public String updateStep(@RequestBody final InstructionAndTagsRequestDto data) {
+    public InstructionAndTagsRequestDto updateStep(@RequestBody final InstructionAndTagsRequestDto data) {
         return instructionService.updateInstruction(data);
     }
 
