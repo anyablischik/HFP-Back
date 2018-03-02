@@ -42,7 +42,7 @@ public class InstructionController {
         return instructionService.updateInstruction(data);
     }
 
-    @PostMapping(value = "/getProjects", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/getInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionRequestDto> projects(@RequestBody final Long data) {
         instructionService.checkProject();
@@ -62,12 +62,12 @@ public class InstructionController {
         return this.instructionService.searcheByTag(tag);
     }
 
-//    @PostMapping(value = "/idProject", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    public InstructionAndTagsRequestDto getIdProject(
-//            @RequestBody final Object idproject) {
-//        return  instructionService.getProject(idproject);
-//    }
+    @PostMapping(value = "/idInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public InstructionAndTagsRequestDto getIdProject(
+            @RequestBody final Object idInstruction) {
+        return  instructionService.getInstruction(idInstruction);
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
     @PostMapping(value = "/comment", produces = MediaType.APPLICATION_JSON_VALUE)

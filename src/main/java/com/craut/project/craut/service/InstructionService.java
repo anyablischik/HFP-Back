@@ -19,14 +19,14 @@ public class InstructionService {
     GenericDaoImpl genericDaoImpl;
     public String save(List<Object> tags, List<StepDto> steps, SectionDto section, Long userId, Integer rating, String title)
     {
-        if(rating != null) {
+        if(rating == null) {
             rating = 0;
         }
             InstructionSections instructionSections = new InstructionSections(section.getTitle());
             genericDaoImpl.save(instructionSections);
             InstructionEntity instructionEntity = new InstructionEntity(title, rating,
                     (UserEntity) genericDaoImpl.findById(new UserEntity(), userId),
-                    (InstructionSections) genericDaoImpl.findById(new InstructionSections(), section.getId()));
+                    (InstructionSections) genericDaoImpl.findById(new InstructionSections(), instructionSections.getIdSection()));
             genericDaoImpl.save(instructionEntity);
         if(tags != null) {
             for (Object tag : tags) {
@@ -55,6 +55,9 @@ public class InstructionService {
     public String updateStep(StepDto step){
         StepEntity stepEntity = (StepEntity) genericDaoImpl.findById(new StepEntity(), step.getId());
         stepEntity.setNameStep(step.getName());
+        if(step.getImage() == null){
+            step.setImage("");
+        }
         stepEntity.setImage(step.getImage().toString());
         stepEntity.setText(step.getText());
         stepEntity.setPosition(step.getPosition());
@@ -73,9 +76,11 @@ public class InstructionService {
         InstructionSections instructionSections = (InstructionSections) genericDaoImpl.findById(new InstructionSections(), data.getSection().getId());
         instructionSections.setNameSection(data.getSection().getTitle());
 
-        for(Object tag:data.getTags()){
-            TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);
-            genericDaoImpl.save(tagsEntity);
+        if (data.getTags() != null) {
+            for (Object tag : data.getTags()) {
+                TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);
+                genericDaoImpl.save(tagsEntity);
+            }
         }
 
         for (StepDto step: data.getSteps()){
@@ -83,6 +88,8 @@ public class InstructionService {
         }
         return "success";
     }
+
+
 //    public String save(InstructionRequestDto instructionRequestDto, List<Object> tags)
 //    {
 //        InstructionEntity instructionEntity = new InstructionEntity(instructionRequestDto.getName(), instructionRequestDto.getTheme(), instructionRequestDto.getRating(),
@@ -96,17 +103,19 @@ public class InstructionService {
 //        }
 //        return "success";
 //    }
-//    public InstructionAndTagsRequestDto getProject(Object idproject){
-//        InstructionEntity instructionEntity = (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),
-//                Long.parseLong(idproject.toString()));
-//        InstructionRequestDto instructionRequestDto = new InstructionRequestDto(instructionEntity.getRating(), instructionEntity.getNameInstruction(), ""+ instructionEntity.getUser().getIdUser(),
-//                "" + instructionEntity.getSections().getIdSection());
-//        InstructionAndTagsRequestDto instructionAndTagsRequestDto = new InstructionAndTagsRequestDto(instructionRequestDto,
-//                genericDaoImpl.findTagByProject(instructionEntity,"TagsEntity","instructionEntity"),
-//                genericDaoImpl.findCommentByProject(instructionEntity,"CommentsEntity","instructionEntity").getComment(),
-//                genericDaoImpl.findCommentByProject(instructionEntity,"CommentsEntity","instructionEntity").getUser());
-//        return instructionAndTagsRequestDto;
-//    }
+    public InstructionAndTagsRequestDto getInstruction(Object idInstruction){
+        InstructionEntity instructionEntity = (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),
+                Long.parseLong(idInstruction.toString()));
+        SectionDto sectionDto = new SectionDto(instructionEntity.getSections().getIdSection(),instructionEntity.getSections().getNameSection());
+        InstructionAndTagsRequestDto instructionAndTagsRequestDto = new InstructionAndTagsRequestDto(
+                genericDaoImpl.findTagByInstruction(instructionEntity, "TagsEntity","instructionEntity"),
+                (ArrayList<StepDto>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"),
+                sectionDto,
+                instructionEntity.getUser().getIdUser(),
+                instructionEntity.getRating(), instructionEntity.getNameInstruction(),
+                instructionEntity.getIdInstruction());
+        return instructionAndTagsRequestDto;
+    }
 
     public void AddComment(CommentRequestDto commentRequestDto){
         System.out.println(commentRequestDto.getIdproject() + " "+ commentRequestDto.getIduser());

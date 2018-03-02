@@ -2,6 +2,7 @@ package com.craut.project.craut.repository;
 
 import com.craut.project.craut.model.*;
 import com.craut.project.craut.service.dto.CommentResponseDto;
+import com.craut.project.craut.service.dto.StepDto;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -80,7 +81,7 @@ public class GenericDaoImpl<T>   {
             return null;
         }
     }
-    public ArrayList<Object> findTagByProject(InstructionEntity project, String tableName, String parametr) {
+    public ArrayList<Object> findTagByInstruction(InstructionEntity project, String tableName, String parametr) {
         Session session =getSession();
         String q="FROM "+tableName+" m WHERE m."+parametr+"=:"+parametr;
         Query query=session.createQuery(q);
@@ -97,6 +98,25 @@ public class GenericDaoImpl<T>   {
             return null;
         }
     }
+
+//    public ArrayList<StepDto> findStepsByInstruction(InstructionEntity project, String tableName, String parametr) {
+//        Session session =getSession();
+//        String q="FROM "+tableName+" m WHERE m."+parametr+"=:"+parametr;
+//        Query query=session.createQuery(q);
+//        query.setParameter(parametr,project);
+//        List<TagsEntity> object=query.list();
+//        ArrayList<Object> list = new ArrayList<>();
+//        if(object!=null &&!object.isEmpty()){
+//            for(TagsEntity obj:object)
+//            {
+//                list.add(obj.getName());
+//            }
+//            return list;
+//        }else{
+//            return null;
+//        }
+//    }
+
     public CommentResponseDto findCommentByProject(InstructionEntity project, String tableName, String parametr) {
         Session session =getSession();
         String q="FROM "+tableName+" m WHERE m."+parametr+"=:"+parametr;
