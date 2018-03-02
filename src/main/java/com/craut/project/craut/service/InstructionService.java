@@ -134,6 +134,10 @@ public class InstructionService {
 
     }
 
+    public List<SectionDto> getSections(){
+        return genericDaoImpl.list("InstructionSections");
+    }
+
     public List<InstructionRequestDto> getUserProjects(Object data){
         return genericDaoImpl.findListByParametr((UserEntity)genericDaoImpl.findById(new UserEntity(),
                 Long.parseLong(data.toString())),"InstructionEntity","user");

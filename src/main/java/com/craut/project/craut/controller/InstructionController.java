@@ -49,6 +49,12 @@ public class InstructionController {
         return instructionService.getProjects(data);
     }
 
+    @PostMapping(value = "/getSections", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<SectionDto> getSections(@RequestBody final Long data) {
+        return instructionService.getSections();
+    }
+
     @PostMapping(value = "/getUserProjects", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionRequestDto> projects(@RequestBody final Object data) {
