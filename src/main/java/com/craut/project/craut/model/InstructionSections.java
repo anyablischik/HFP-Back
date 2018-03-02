@@ -15,13 +15,13 @@ public class InstructionSections {
     @Id
     @Column(name = "idSection")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idSection;
+    private Long id;
 
     @Column(name = "nameSection")
-    private String nameSection;
+    private String title;
 
 
     public InstructionSections(String nameSection) {
-        this.nameSection = nameSection;
+        this.title = nameSection;
     }
 }

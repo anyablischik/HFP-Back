@@ -74,7 +74,7 @@ public class InstructionService {
         instructionEntity.setSections((InstructionSections)genericDaoImpl.findById(new InstructionSections(), data.getSection().getId()));
 
         InstructionSections instructionSections = (InstructionSections) genericDaoImpl.findById(new InstructionSections(), data.getSection().getId());
-        instructionSections.setNameSection(data.getSection().getTitle());
+        instructionSections.setTitle(data.getSection().getTitle());
 
         if (data.getTags() != null) {
             for (Object tag : data.getTags()) {
@@ -92,7 +92,7 @@ public class InstructionService {
     public InstructionAndTagsRequestDto getInstruction(Object idInstruction){
         InstructionEntity instructionEntity = (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),
                 Long.parseLong(idInstruction.toString()));
-        SectionDto sectionDto = new SectionDto(instructionEntity.getSections().getIdSection(),instructionEntity.getSections().getNameSection());
+        SectionDto sectionDto = new SectionDto(instructionEntity.getSections().getId(),instructionEntity.getSections().getTitle());
         InstructionAndTagsRequestDto instructionAndTagsRequestDto = new InstructionAndTagsRequestDto(
                 genericDaoImpl.findTagByInstruction(instructionEntity, "TagsEntity","instructionEntity"),
                 (ArrayList<StepDto>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"),
