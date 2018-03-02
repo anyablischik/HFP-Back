@@ -42,10 +42,16 @@ public class InstructionController {
         return instructionService.updateInstruction(data);
     }
 
-    @PostMapping(value = "/getStep", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public StepDto projects(@RequestBody final Long data) {
-        return instructionService.getStep(data);
+//    @PostMapping(value = "/getStep", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    public StepDto projects(@RequestBody final Long data) {
+//        return instructionService.getStep(data);
+//    }
+
+    @RequestMapping(value = "/getStep/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    //@ResponseStatus(value = HttpStatus.OK)
+    public StepDto projects(@PathVariable("id") long id) {
+        return instructionService.getStep(id);
     }
 
     @PostMapping(value = "/getSections", produces = MediaType.APPLICATION_JSON_VALUE)
