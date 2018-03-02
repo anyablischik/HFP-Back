@@ -42,29 +42,20 @@ public class InstructionController {
         return instructionService.updateInstruction(data);
     }
 
-//    @PostMapping(value = "/getStep", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    public StepDto projects(@RequestBody final Long data) {
-//        return instructionService.getStep(data);
-//    }
-
     @RequestMapping(value = "/getStep/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@ResponseStatus(value = HttpStatus.OK)
     public StepDto projects(@PathVariable("id") long id) {
         return instructionService.getStep(id);
     }
 
-    @PostMapping(value = "/getSections", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public List<SectionDto> getSections(@RequestBody final Long data) {
+    @GetMapping(value = "/getSections", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<SectionDto> getSections() {
         return instructionService.getSections();
     }
 
-    @PostMapping(value = "/idInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/idInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public InstructionAndTagsRequestDto getIdProject(
-            @RequestBody final Object idInstruction) {
-        return  instructionService.getInstruction(idInstruction);
+    public InstructionAndTagsRequestDto getIdProject(@PathVariable("id") long id) {
+        return  instructionService.getInstruction(id);
     }
 
     @PostMapping(value = "/getUserProjects", produces = MediaType.APPLICATION_JSON_VALUE)
