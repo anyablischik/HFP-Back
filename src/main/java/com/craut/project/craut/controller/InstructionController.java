@@ -54,6 +54,13 @@ public class InstructionController {
         return instructionService.getSections();
     }
 
+    @PostMapping(value = "/idInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public InstructionAndTagsRequestDto getIdProject(
+            @RequestBody final Object idInstruction) {
+        return  instructionService.getInstruction(idInstruction);
+    }
+
     @PostMapping(value = "/getUserProjects", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionRequestDto> projects(@RequestBody final Object data) {
@@ -67,11 +74,10 @@ public class InstructionController {
         return this.instructionService.searcheByTag(tag);
     }
 
-    @PostMapping(value = "/idInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/deleteStep", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public InstructionAndTagsRequestDto getIdProject(
-            @RequestBody final Object idInstruction) {
-        return  instructionService.getInstruction(idInstruction);
+    public String deleteStep(@RequestBody Object id) {
+        return this.instructionService.deleteStep(id);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")

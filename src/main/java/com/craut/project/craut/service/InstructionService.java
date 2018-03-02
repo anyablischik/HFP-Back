@@ -128,6 +128,12 @@ public class InstructionService {
                 return stepDto;
     }
 
+    public String deleteStep(Object id){
+        StepEntity stepEntity = (StepEntity)genericDaoImpl.findById(new StepEntity(), Long.parseLong(id.toString()));
+        genericDaoImpl.del(stepEntity);
+        return "succes";
+    }
+
     public void AddComment(CommentRequestDto commentRequestDto){
         System.out.println(commentRequestDto.getIdproject() + " "+ commentRequestDto.getIduser());
         InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(),commentRequestDto.getIdproject());
