@@ -27,6 +27,11 @@ public class UserController {
         return this.userService.update(registrtionRequestDto, token);
     }
 
+    @DeleteMapping(value = "/deleteUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteInstruction(@PathVariable("id") long id) {
+        return this.userService.deleteUser(id);
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/block",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)

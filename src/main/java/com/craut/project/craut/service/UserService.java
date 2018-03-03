@@ -94,6 +94,26 @@ public class UserService {
         return "success";
     }
 
+    public String deleteUser(Long id){
+        UserEntity user = (UserEntity)genericDaoImpl.findById(new UserEntity(),id);
+        genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(user,"CommentsEntity",
+                "userEntity"));
+        UserRoleEntity roleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,
+                "UserRoleEntity","user");
+        List<InstructionEntity> list= (List<InstructionEntity>)genericDaoImpl.findListByParametr(user,
+                "InstructionEntity","user");
+        if(list != null) {
+            for (InstructionEntity instructionEntity : list) {
+                genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(instructionEntity,
+                        "TagsEntity", "instructionEntity"));
+                genericDaoImpl.deleteList((ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"));
+                genericDaoImpl.del(instructionEntity);
+            }
+        }
+        genericDaoImpl.del(roleEntity);
+        return "success";
+    }
+
     public String confirmUser(ArrayList<Long> blockRequestDto){
         Long choose = blockRequestDto.get(0);
         blockRequestDto.remove(0);

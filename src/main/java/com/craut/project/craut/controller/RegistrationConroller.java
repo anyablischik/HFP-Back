@@ -31,7 +31,7 @@ public class RegistrationConroller {
     ) {
         registrationService.verification(token);
         try {
-            http.sendRedirect("http://localhost:4200/succesRegistration");
+            http.sendRedirect("http://localhost:4200/success-registration");
         } catch (IOException ex) {}
     }
 
