@@ -46,7 +46,8 @@ public class InstructionService {
 
     public StepDto save(StepDto step)
     {
-        StepEntity stepEntity = new StepEntity(step.getName(), step.getImage().toString(), step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), step.getInstructionId()),step.getPosition());
+        String linkImage = step.getImage() != null ? step.getImage().toString() : "";
+        StepEntity stepEntity = new StepEntity(step.getName(),linkImage , step.getText(), (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(), step.getInstructionId()),step.getPosition());
         genericDaoImpl.save(stepEntity);
         step.setId(stepEntity.getIdStep());
         return step;
@@ -93,9 +94,15 @@ public class InstructionService {
         InstructionEntity instructionEntity = (InstructionEntity) genericDaoImpl.findById(new InstructionEntity(),
                 Long.parseLong(idInstruction.toString()));
         SectionDto sectionDto = new SectionDto(instructionEntity.getSections().getId(),instructionEntity.getSections().getTitle());
+
+        ArrayList<StepEntity> array = (ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction");
+        ArrayList<StepDto> goodArray = new ArrayList<>();
+        array.forEach( stepEntity -> goodArray.add(new StepDto(stepEntity.getIdStep(), stepEntity.getPosition(),
+                stepEntity.getNameStep(), stepEntity.getText(), stepEntity.getImage(), stepEntity.getIdStep())));
+
         InstructionAndTagsRequestDto instructionAndTagsRequestDto = new InstructionAndTagsRequestDto(
                 genericDaoImpl.findTagByInstruction(instructionEntity, "TagsEntity","instructionEntity"),
-                (ArrayList<StepDto>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"),
+                goodArray,
                 sectionDto,
                 instructionEntity.getUser().getIdUser(),
                 instructionEntity.getRating(), instructionEntity.getNameInstruction(),
