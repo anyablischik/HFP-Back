@@ -155,10 +155,17 @@ public class InstructionService {
 
 
 
-    public List<InstructionRequestDto> getUserProjects(Object data){
-        return genericDaoImpl.findListByParametr((UserEntity)genericDaoImpl.findById(new UserEntity(),
+    public List<InstructionAndTagsRequestDto> getUserInstructions(Object data){
+        List<InstructionEntity> instructionEntity =  (List<InstructionEntity>)genericDaoImpl.findListByParametr((UserEntity)genericDaoImpl.findById(new UserEntity(),
                 Long.parseLong(data.toString())),"InstructionEntity","user");
+        List<InstructionAndTagsRequestDto> result = new ArrayList<>();
+        instructionEntity.forEach(instruction -> result.add(new InstructionAndTagsRequestDto(
+                genericDaoImpl.findTagByInstruction(instruction, "TagsEntity","instructionEntity"),
+                null, new SectionDto(instruction.getSections().getId(),instruction.getSections().getTitle()),
+                instruction.getUser().getIdUser(), instruction.getRating(), instruction.getNameInstruction(), instruction.getIdInstruction())));
+        return result;
     }
+
     public List<InstructionRequestDto> getProjects(Long data){
         if(data == 0) {
             return genericDaoImpl.list("InstructionEntity");
