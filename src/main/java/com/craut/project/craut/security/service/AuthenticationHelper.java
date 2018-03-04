@@ -22,7 +22,7 @@ public class AuthenticationHelper {
     public static final String AUTHENTICATION_HEADER = "Authorization";
     private final String SECRET = "ChangeMeToSomethingElse";
 
-    private Long tokenExpirationTime = 3600L;
+    private Long tokenExpirationTime = 10000000L;
 
     private final ObjectMapper objectMapper;
 

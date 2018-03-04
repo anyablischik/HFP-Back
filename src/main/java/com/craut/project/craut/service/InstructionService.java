@@ -153,11 +153,22 @@ public class InstructionService {
 
     }
 
-
-
     public List<InstructionAndTagsRequestDto> getUserInstructions(Object data){
         List<InstructionEntity> instructionEntity =  (List<InstructionEntity>)genericDaoImpl.findListByParametr((UserEntity)genericDaoImpl.findById(new UserEntity(),
                 Long.parseLong(data.toString())),"InstructionEntity","user");
+        if(instructionEntity == null) return null;
+        List<InstructionAndTagsRequestDto> result = new ArrayList<>();
+        instructionEntity.forEach(instruction -> result.add(new InstructionAndTagsRequestDto(
+                genericDaoImpl.findTagByInstruction(instruction, "TagsEntity","instructionEntity"),
+                null, new SectionDto(instruction.getSections().getId(),instruction.getSections().getTitle()),
+                instruction.getUser().getIdUser(), instruction.getRating(), instruction.getNameInstruction(), instruction.getIdInstruction())));
+        return result;
+    }
+
+    public List<InstructionAndTagsRequestDto> getInstructionsBySections(Object data){
+        InstructionSections instructionSections = (InstructionSections)genericDaoImpl.findById(new InstructionSections(), Long.parseLong(data.toString()));
+        List<InstructionEntity> instructionEntity = (List<InstructionEntity>)genericDaoImpl.findListByParametr(instructionSections, "InstructionEntity","sections");
+        if(instructionEntity == null) return null;
         List<InstructionAndTagsRequestDto> result = new ArrayList<>();
         instructionEntity.forEach(instruction -> result.add(new InstructionAndTagsRequestDto(
                 genericDaoImpl.findTagByInstruction(instruction, "TagsEntity","instructionEntity"),

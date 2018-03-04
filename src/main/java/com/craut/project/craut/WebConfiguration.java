@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
-    private static final int MAX_AGE = 100000;
+    private static final int MAX_AGE = 3600;
 
     @Override
     public void addCorsMappings(final CorsRegistry registry) {

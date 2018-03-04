@@ -75,6 +75,12 @@ public class InstructionController {
         return  instructionService.getUserInstructions(id);
     }
 
+    @GetMapping(value = "/instructionsOfSection/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<InstructionAndTagsRequestDto> getInstructionsSection(@PathVariable("id") long id) {
+        return  instructionService.getInstructionsBySections(id);
+    }
+
     @PostMapping(value = "/searcheTag", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionEntity> finalAll(@RequestBody Object tag) {
