@@ -128,7 +128,7 @@ public class InstructionService {
     }
 
     public String deleteInstruction(Long id){
-        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), Long.parseLong("27"));
+        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), Long.parseLong(id.toString()));
         genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(instructionEntity,
                 "TagsEntity", "instructionEntity"));
         genericDaoImpl.deleteList((ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"));
