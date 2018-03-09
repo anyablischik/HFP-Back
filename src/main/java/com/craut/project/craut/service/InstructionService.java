@@ -68,6 +68,10 @@ public class InstructionService {
     }
 
     public InstructionAndTagsRequestDto updateInstruction(Long id, InstructionAndTagsRequestDto data){
+        if(data.getRating() == null) {
+            data.setRating(0);
+        }
+
         InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), id);
         instructionEntity.setNameInstruction(data.getTitle());
         instructionEntity.setRating(data.getRating());
