@@ -169,6 +169,28 @@ public class InstructionService {
         return result;
     }
 
+    public List<InstructionAndTagsRequestDto> getUserInstructionsWithLimit(Object data, Integer limit){
+        List<InstructionEntity> instructionEntity =  (List<InstructionEntity>)genericDaoImpl.findListByParametr((UserEntity)genericDaoImpl.findById(new UserEntity(),
+                Long.parseLong(data.toString())),"InstructionEntity","user");
+        if(instructionEntity == null) return null;
+        List<InstructionAndTagsRequestDto> result = new ArrayList<>();
+        instructionEntity.forEach(instruction -> result.add(new InstructionAndTagsRequestDto(
+                genericDaoImpl.findTagByInstruction(instruction, "TagsEntity","instructionEntity"),
+                null, new SectionDto(instruction.getSections().getId(),instruction.getSections().getTitle()),
+                instruction.getUser().getIdUser(), instruction.getRating(), instruction.getNameInstruction(), instruction.getIdInstruction())));
+        Collections.sort(result, new Comparator<InstructionAndTagsRequestDto>() {
+            @Override
+            public int compare(InstructionAndTagsRequestDto o1, InstructionAndTagsRequestDto o2) {
+                return o1.getId() > o2.getId() ? -1 : o1.getId() < o2.getId() ? 1 : 0;
+            }
+        });
+        ArrayList<InstructionAndTagsRequestDto> resultLimited = new ArrayList<>();
+        for (int i = 0; i<limit ; i++){
+            resultLimited.add(result.get(i));
+        }
+        return resultLimited;
+    }
+
     public List<InstructionAndTagsRequestDto> getInstructionsBySections(Object data){
         InstructionSections instructionSections = (InstructionSections)genericDaoImpl.findById(new InstructionSections(), Long.parseLong(data.toString()));
         List<InstructionEntity> instructionEntity = (List<InstructionEntity>)genericDaoImpl.findListByParametr(instructionSections, "InstructionEntity","sections");
