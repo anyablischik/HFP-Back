@@ -81,6 +81,9 @@ public class InstructionService {
         InstructionSections instructionSections = (InstructionSections) genericDaoImpl.findById(new InstructionSections(), data.getSection().getId());
         instructionSections.setTitle(data.getSection().getTitle());
 
+        genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(instructionEntity,
+                "TagsEntity", "instructionEntity"));
+
         if (data.getTags() != null) {
             for (Object tag : data.getTags()) {
                 TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);

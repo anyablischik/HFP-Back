@@ -38,7 +38,7 @@ public class InstructionController {
 
     @PutMapping(value = "/updateInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public InstructionAndTagsRequestDto updateStep(@PathVariable("id") long id, @RequestBody final InstructionAndTagsRequestDto data) {
+    public InstructionAndTagsRequestDto updateInstructions(@PathVariable("id") long id, @RequestBody final InstructionAndTagsRequestDto data) {
         return instructionService.updateInstruction(id, data);
     }
 
