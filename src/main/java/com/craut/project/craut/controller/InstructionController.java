@@ -38,7 +38,7 @@ public class InstructionController {
 
     @PutMapping(value = "/updateInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public InstructionAndTagsRequestDto updateStep(@PathVariable("id") long id, @RequestBody final InstructionAndTagsRequestDto data) {
+    public InstructionAndTagsRequestDto updateInstructions(@PathVariable("id") long id, @RequestBody final InstructionAndTagsRequestDto data) {
         return instructionService.updateInstruction(id, data);
     }
 
@@ -63,7 +63,6 @@ public class InstructionController {
         return  instructionService.getInstruction(id);
     }
 
-
     @DeleteMapping(value = "/deleteInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String deleteInstruction(@PathVariable("id") long id) {
         return this.instructionService.deleteInstruction(id);
@@ -73,6 +72,17 @@ public class InstructionController {
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionAndTagsRequestDto> getInstructions(@PathVariable("id") long id) {
         return  instructionService.getUserInstructions(id);
+    }
+
+    @GetMapping(value = "/userInstructions/{id}/limit={limit}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<InstructionAndTagsRequestDto> getInstructions(@PathVariable("id") long id, @PathVariable("limit") Integer limit) {
+        if (limit == null){
+            return  instructionService.getUserInstructions(id);
+        }
+        else {
+            return instructionService.getUserInstructionsWithLimit(id, limit);
+        }
     }
 
     @GetMapping(value = "/instructionsOfSection/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

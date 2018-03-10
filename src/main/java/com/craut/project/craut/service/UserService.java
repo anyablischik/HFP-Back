@@ -8,11 +8,14 @@ import com.craut.project.craut.service.dto.*;
 import com.craut.project.craut.service.transformer.AuthUserTransformer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -24,6 +27,7 @@ public class UserService {
     GenericDaoImpl genericDaoImpl;
     private final AuthUserTransformer authUserTransformer;
     private final AuthenticationHelper authenticationHelper;
+    private  final PasswordEncoder passwordEncoder;
 
     public AuthUserDto update(final RegistrtionRequestDto registrtionRequestDto, String token) {
         if(token.contains(""))
@@ -37,7 +41,14 @@ public class UserService {
         userRoleEntity.getUser().setFirstName(registrtionRequestDto.getFirstName());
         userRoleEntity.getUser().setLastName(registrtionRequestDto.getLastName());
         userRoleEntity.getUser().setEmail(registrtionRequestDto.getEmail());
-        userRoleEntity.getUser().setPassword(registrtionRequestDto.getPassword());
+        if (registrtionRequestDto.getPassword() != userRoleEntity.getUser().getPassword()) {
+            String password = passwordEncoder.encode(Optional.ofNullable(registrtionRequestDto.getPassword())
+                    .orElseThrow(() -> new BadCredentialsException("Password should be passed.")));
+            userRoleEntity.getUser().setPassword(password);
+        }
+        else {
+            userRoleEntity.getUser().setPassword(registrtionRequestDto.getPassword());
+        }
         userRoleEntity.getUser().setUserName(registrtionRequestDto.getUserName());
         genericDaoImpl.save(userRoleEntity);
         return authUserTransformer.makeDto(userRoleEntity);

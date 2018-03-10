@@ -68,6 +68,10 @@ public class InstructionService {
     }
 
     public InstructionAndTagsRequestDto updateInstruction(Long id, InstructionAndTagsRequestDto data){
+        if(data.getRating() == null) {
+            data.setRating(0);
+        }
+
         InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), id);
         instructionEntity.setNameInstruction(data.getTitle());
         instructionEntity.setRating(data.getRating());
@@ -76,6 +80,9 @@ public class InstructionService {
 
         InstructionSections instructionSections = (InstructionSections) genericDaoImpl.findById(new InstructionSections(), data.getSection().getId());
         instructionSections.setTitle(data.getSection().getTitle());
+
+        genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(instructionEntity,
+                "TagsEntity", "instructionEntity"));
 
         if (data.getTags() != null) {
             for (Object tag : data.getTags()) {
@@ -163,6 +170,25 @@ public class InstructionService {
                 null, new SectionDto(instruction.getSections().getId(),instruction.getSections().getTitle()),
                 instruction.getUser().getIdUser(), instruction.getRating(), instruction.getNameInstruction(), instruction.getIdInstruction())));
         return result;
+    }
+
+    public List<InstructionAndTagsRequestDto> getUserInstructionsWithLimit(Object data, Integer limit){
+        List<InstructionAndTagsRequestDto> result = getUserInstructions(data);
+        Collections.sort(result, new Comparator<InstructionAndTagsRequestDto>() {
+            @Override
+            public int compare(InstructionAndTagsRequestDto o1, InstructionAndTagsRequestDto o2) {
+                return o1.getId() > o2.getId() ? -1 : o1.getId() < o2.getId() ? 1 : 0;
+            }
+        });
+        if(limit <= result.size()) {
+            ArrayList<InstructionAndTagsRequestDto> resultLimited = new ArrayList<>();
+            for (int i = 0; i < limit; i++) {
+                resultLimited.add(result.get(i));
+            }
+            return resultLimited;
+        }else{
+            return result;
+        }
     }
 
     public List<InstructionAndTagsRequestDto> getInstructionsBySections(Object data){
