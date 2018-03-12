@@ -41,7 +41,7 @@ public class UserService {
         userRoleEntity.getUser().setFirstName(registrtionRequestDto.getFirstName());
         userRoleEntity.getUser().setLastName(registrtionRequestDto.getLastName());
         userRoleEntity.getUser().setEmail(registrtionRequestDto.getEmail());
-        if (registrtionRequestDto.getPassword() != userRoleEntity.getUser().getPassword()) {
+        if (!registrtionRequestDto.getPassword().contains(userRoleEntity.getUser().getPassword())) {
             String password = passwordEncoder.encode(Optional.ofNullable(registrtionRequestDto.getPassword())
                     .orElseThrow(() -> new BadCredentialsException("Password should be passed.")));
             userRoleEntity.getUser().setPassword(password);
