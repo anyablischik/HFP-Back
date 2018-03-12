@@ -121,6 +121,11 @@ public class InstructionService {
         return genericDaoImpl.list("InstructionSections");
     }
 
+    public SectionDto getSection(long id){
+        InstructionSections section = (InstructionSections)genericDaoImpl.findById(new InstructionSections(), id);
+        return new SectionDto(section.getId(), section.getTitle());
+    }
+
     public StepDto getStep(Long idStep){
         StepEntity stepEntity = (StepEntity)genericDaoImpl.findById(new StepEntity(), Long.parseLong(idStep.toString()));
                 StepDto stepDto = new StepDto(stepEntity.getIdStep(), stepEntity.getPosition(),

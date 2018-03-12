@@ -74,6 +74,12 @@ public class InstructionController {
         return  instructionService.getUserInstructions(id);
     }
 
+    @GetMapping(value = "/getSection/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public SectionDto getSection(@PathVariable("id") long id) {
+        return  instructionService.getSection(id);
+    }
+
     @GetMapping(value = "/userInstructions/{id}/limit={limit}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionAndTagsRequestDto> getInstructions(@PathVariable("id") long id, @PathVariable("limit") Integer limit) {
