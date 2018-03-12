@@ -41,11 +41,6 @@ public class InstructionService {
             genericDaoImpl.save(stepEntity);
         }
         instructionAndTagsRequestDto.setId(instructionEntity.getIdInstruction());
-        ArrayList<StepDto> stepList = instructionAndTagsRequestDto.getSteps();
-        for(StepDto step: stepList){
-            step.setInstructionId(instructionAndTagsRequestDto.getId());
-        }
-        instructionAndTagsRequestDto.setSteps(stepList);
         return instructionAndTagsRequestDto;
     }
 
@@ -110,7 +105,7 @@ public class InstructionService {
         ArrayList<StepEntity> array = (ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction");
         ArrayList<StepDto> goodArray = new ArrayList<>();
         array.forEach( stepEntity -> goodArray.add(new StepDto(stepEntity.getIdStep(), stepEntity.getPosition(),
-                stepEntity.getNameStep(), stepEntity.getText(), stepEntity.getImage(), stepEntity.getIdStep())));
+                stepEntity.getNameStep(), stepEntity.getText(), stepEntity.getImage(), stepEntity.getInstruction().getIdInstruction())));
 
         InstructionAndTagsRequestDto instructionAndTagsRequestDto = new InstructionAndTagsRequestDto(
                 genericDaoImpl.findTagByInstruction(instructionEntity, "TagsEntity","instructionEntity"),
