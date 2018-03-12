@@ -41,6 +41,11 @@ public class InstructionService {
             genericDaoImpl.save(stepEntity);
         }
         instructionAndTagsRequestDto.setId(instructionEntity.getIdInstruction());
+        ArrayList<StepDto> stepList = instructionAndTagsRequestDto.getSteps();
+        for(StepDto step: stepList){
+            step.setInstructionId(instructionAndTagsRequestDto.getId());
+        }
+        instructionAndTagsRequestDto.setSteps(stepList);
         return instructionAndTagsRequestDto;
     }
 
