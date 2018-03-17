@@ -39,8 +39,8 @@ public class UserService {
                 "UserRoleEntity","user");
         UserEntity user = (UserEntity) genericDaoImpl.findByParametr(registrtionRequestDto.getUserName(),"UserEntity",
                 "userName");
-        if(user != userEntity) {
-            throw new BadCredentialsException("Username not Unique.");
+        if(user != null  && user.getUserName().equals(registrtionRequestDto.getUserName()) && user.getIdUser() != userEntity.getIdUser()) {
+            throw new BadCredentialsException("Login not unique.");
         }
         userRoleEntity.getUser().setImage(registrtionRequestDto.getImage());
         userRoleEntity.getUser().setFirstName(registrtionRequestDto.getFirstName());
