@@ -67,6 +67,10 @@ public class InstructionService {
         return step;
     }
 
+    public void testGitFork(){
+        return;
+    }
+
     public InstructionAndTagsRequestDto updateInstruction(Long id, InstructionAndTagsRequestDto data){
         if(data.getRating() == null) {
             data.setRating(0);
