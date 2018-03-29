@@ -67,8 +67,14 @@ public class InstructionService {
         return step;
     }
 
-    public void testGitFork(){
-        return;
+
+    public SectionDto createSection(SectionDto newSection){
+        InstructionSections section = new InstructionSections(newSection.getTitle());
+        genericDaoImpl.save(section);
+        SectionDto sectionDto = new SectionDto();
+        sectionDto.setTitle(section.getTitle());
+        sectionDto.setId((Long) genericDaoImpl.findByParametr(section.getTitle(), "InstructionSections","idSection"));
+        return sectionDto;
     }
 
     public InstructionAndTagsRequestDto updateInstruction(Long id, InstructionAndTagsRequestDto data){

@@ -30,6 +30,12 @@ public class InstructionController {
         return this.instructionService.save(data);
     }
 
+    @PostMapping(value = "/createSection", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public SectionDto createSection(@RequestBody SectionDto SectionData) {
+        return this.instructionService.createSection(SectionData);
+    }
+
     @PutMapping(value = "/updateStep/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public StepDto updateStep(@PathVariable("id") long id, @RequestBody final StepDto data) {
