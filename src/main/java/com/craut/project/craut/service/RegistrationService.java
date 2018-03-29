@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -28,6 +30,13 @@ public class RegistrationService {
 
     private final AuthenticationHelper authenticationHelper;
     private  final PasswordEncoder passwordEncoder;
+
+    public static boolean checkPasswordWithRegExp(String password) {
+        Pattern p = Pattern.compile("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z]).{8,12}$");
+        Matcher m = p.matcher(password);
+        return m.matches();
+    }
+
     public void registration(final RegistrtionRequestDto registrtionRequestDto) {
 
         String username = Optional.ofNullable(registrtionRequestDto.getUserName())
@@ -36,6 +45,10 @@ public class RegistrationService {
                 "userName");
         if(userEntity!=null) {
             throw new BadCredentialsException("Username not Unique.");
+        }
+
+        if(!checkPasswordWithRegExp(registrtionRequestDto.getPassword())){
+            throw new BadCredentialsException("Password incorrect");
         }
 
         String password = passwordEncoder.encode(Optional.ofNullable(registrtionRequestDto.getPassword())
@@ -60,6 +73,8 @@ public class RegistrationService {
                 ,this.authenticationHelper.generateToken(userRoleEntity.getIdusers_roles()));
 
     }
+
+
     public void verification(String token) {
         TokenPayload tokenPayload = authenticationHelper.decodeToken(token);
         Long userRoleEntityId = tokenPayload.getUserId();
