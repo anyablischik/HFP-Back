@@ -5,6 +5,7 @@ import com.craut.project.craut.repository.GenericDaoImpl;
 import com.craut.project.craut.service.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,6 +71,11 @@ public class InstructionService {
 
     public SectionDto createSection(SectionDto newSection){
         InstructionSections section = new InstructionSections(newSection.getTitle());
+        InstructionSections sectionEntity = (InstructionSections) genericDaoImpl.findByParametr(section.getTitle(),"InstructionSections",
+                "title");
+        if(sectionEntity!=null) {
+            throw new BadCredentialsException("Section already exist");
+        }
         genericDaoImpl.save(section);
         SectionDto sectionDto = new SectionDto();
         sectionDto.setTitle(section.getTitle());
