@@ -83,6 +83,12 @@ public class InstructionService {
         return sectionDto;
     }
 
+    public String deleteSection(Object id){
+        InstructionSections sections = (InstructionSections) genericDaoImpl.findById(new InstructionSections(), Long.parseLong(id.toString()));
+        genericDaoImpl.del(sections);
+        return "succes";
+    }
+
     public InstructionAndTagsRequestDto updateInstruction(Long id, InstructionAndTagsRequestDto data){
         if(data.getRating() == null) {
             data.setRating(0);

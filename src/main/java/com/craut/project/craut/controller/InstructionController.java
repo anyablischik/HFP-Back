@@ -74,6 +74,11 @@ public class InstructionController {
         return this.instructionService.deleteInstruction(id);
     }
 
+    @DeleteMapping(value = "/deleteSection/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteSection(@PathVariable("id") long id) {
+        return this.instructionService.deleteSection(id);
+    }
+
     @GetMapping(value = "/userInstructions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionAndTagsRequestDto> getInstructions(@PathVariable("id") long id) {
