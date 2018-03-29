@@ -73,7 +73,7 @@ public class InstructionService {
         genericDaoImpl.save(section);
         SectionDto sectionDto = new SectionDto();
         sectionDto.setTitle(section.getTitle());
-        sectionDto.setId((Long) genericDaoImpl.findByParametr(section.getTitle(), "InstructionSections","idSection"));
+        sectionDto.setId(section.getId());
         return sectionDto;
     }
 
