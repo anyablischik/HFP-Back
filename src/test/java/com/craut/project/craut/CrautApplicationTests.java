@@ -1,6 +1,5 @@
 package com.craut.project.craut;
 
-import com.craut.project.craut.service.RegistrationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

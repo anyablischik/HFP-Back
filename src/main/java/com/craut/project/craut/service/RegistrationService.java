@@ -28,6 +28,11 @@ public class RegistrationService {
 
     private final AuthenticationHelper authenticationHelper;
     private  final PasswordEncoder passwordEncoder;
+
+    public static boolean checkPasswordWithRegExp(String password) {
+        return false;
+    }
+
     public void registration(final RegistrtionRequestDto registrtionRequestDto) {
 
         String username = Optional.ofNullable(registrtionRequestDto.getUserName())
