@@ -210,6 +210,11 @@ public class InstructionService {
         genericDaoImpl.save(commentsEntity);
     }
 
+    public void deleteCom(Long id){
+        CommentsEntity commentsEntity = (CommentsEntity)genericDaoImpl.findById(new CommentsEntity(), id);
+        genericDaoImpl.del(commentsEntity);
+    }
+
     public void addTags(InstructionEntity instructionEntity, List<Object> tags){
         for(Object tag:tags){
             TagsEntity tagsEntity = new TagsEntity(tag.toString(), instructionEntity);

@@ -135,6 +135,12 @@ public class InstructionController {
          return "success";
     }
 
+    @DeleteMapping(value = "/deleteComment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteComment(@PathVariable("id") long id) {
+         this.instructionService.deleteCom(id);
+         return "success";
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
     @PostMapping(value = "/rating", produces = MediaType.APPLICATION_JSON_VALUE)
