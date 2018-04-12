@@ -166,6 +166,7 @@ public class InstructionService {
         genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(instructionEntity,
                 "TagsEntity", "instructionEntity"));
         genericDaoImpl.deleteList((ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"));
+        genericDaoImpl.deleteList((ArrayList<CommentsEntity>)genericDaoImpl.findListByParametr(instructionEntity, "CommentsEntity","instructionEntity"));
         genericDaoImpl.del(instructionEntity);
         return "succes";
     }
