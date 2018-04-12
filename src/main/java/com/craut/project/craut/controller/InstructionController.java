@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -114,13 +115,26 @@ public class InstructionController {
         return this.instructionService.searcheByTag(tag);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
-    @PostMapping(value = "/comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/createComment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public String addComment(@RequestBody final CommentRequestDto commentRequestDto) {
         instructionService.AddComment(commentRequestDto);
         return "success";
     }
+
+    @GetMapping(value = "/getCommentsByInstructionId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public ArrayList<CommentRequestDto> getCommentsByInstructionId(@PathVariable("id") long id) {
+        return  instructionService.getCommentByInstruction(id);
+    }
+
+    @PostMapping(value = "/updateComment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public String updateComment(@PathVariable("id") long id, @RequestBody final CommentRequestDto commentRequestDto) {
+         instructionService.updateCommentForInstruction(id, commentRequestDto);
+         return "success";
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
     @PostMapping(value = "/rating", produces = MediaType.APPLICATION_JSON_VALUE)

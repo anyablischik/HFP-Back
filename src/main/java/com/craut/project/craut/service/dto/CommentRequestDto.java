@@ -6,7 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentRequestDto implements Dto{
-    String comment;
-    Long idproject;
-    Long iduser;
+    long id;
+    String text;
+    Long idInstruction;
+    UserDto user;
 }

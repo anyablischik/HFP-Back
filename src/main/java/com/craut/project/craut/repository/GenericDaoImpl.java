@@ -127,7 +127,7 @@ public class GenericDaoImpl<T>   {
         ArrayList<UserEntity> listUsers = new ArrayList<>();
         if(object!=null &&!object.isEmpty()){
             for(CommentsEntity obj:object) {
-                list.add(obj.getComment());
+                list.add(obj.getIdcomments());
                 listUsers.add(obj.getUserEntity());
             }
             return new CommentResponseDto(list,listUsers); //TODO fix bug with null

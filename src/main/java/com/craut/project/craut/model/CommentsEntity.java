@@ -15,7 +15,7 @@ public class CommentsEntity {
     @Id
     @Column(name = "idcomments")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idcomments;
+    private Long idcomments;
 
     @Column(name = "comment")
     private String comment;

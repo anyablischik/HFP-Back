@@ -171,11 +171,42 @@ public class InstructionService {
     }
 
     public void AddComment(CommentRequestDto commentRequestDto){
-        System.out.println(commentRequestDto.getIdproject() + " "+ commentRequestDto.getIduser());
-        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(),commentRequestDto.getIdproject());
-        UserEntity userEntity = (UserEntity)genericDaoImpl.findById(new UserEntity(),commentRequestDto.getIduser());
+        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(),commentRequestDto.getIdInstruction());
+        UserEntity userEntity = (UserEntity)genericDaoImpl.findById(new UserEntity(),commentRequestDto.getUser().getId());
 
-        CommentsEntity commentsEntity = new CommentsEntity(commentRequestDto.getComment(), instructionEntity,userEntity);
+        CommentsEntity commentsEntity = new CommentsEntity(commentRequestDto.getText(), instructionEntity,userEntity);
+        genericDaoImpl.save(commentsEntity);
+    }
+
+    public ArrayList<CommentRequestDto> getCommentByInstruction(long id){
+        InstructionEntity instructionEntity = genericDaoImpl.findById(new InstructionEntity(), id);
+        CommentResponseDto commentsEntity = genericDaoImpl.findCommentByProject(instructionEntity, "CommentsEntity","instructionEntity");
+        ArrayList<CommentRequestDto> commentRequestDtoArrayList = new ArrayList<>();
+        for(int i = 0; i < commentsEntity.getComment().size(); i++) {
+            CommentRequestDto commentrequestDto = new CommentRequestDto();
+
+            UserDto userDto = new UserDto();
+            userDto.setId(commentsEntity.getUser().get(i).getIdUser());
+            userDto.setEmail(commentsEntity.getUser().get(i).getEmail());
+            userDto.setFirstName(commentsEntity.getUser().get(i).getFirstName());
+            userDto.setImage(commentsEntity.getUser().get(i).getImage());
+            userDto.setLastName(commentsEntity.getUser().get(i).getLastName());
+            userDto.setPassword(commentsEntity.getUser().get(i).getPassword());
+            userDto.setUserName(commentsEntity.getUser().get(i).getUserName());
+            commentrequestDto.setUser(userDto);
+
+            long idComment = Long.parseLong(commentsEntity.getComment().get(i).toString());
+            commentrequestDto.setText(((CommentsEntity)genericDaoImpl.findById(new CommentsEntity(), idComment)).getComment());
+            commentrequestDto.setIdInstruction(id);
+            commentrequestDto.setId(Integer.parseInt(commentsEntity.getComment().get(i).toString()));
+            commentRequestDtoArrayList.add(commentrequestDto);
+        }
+        return commentRequestDtoArrayList;
+    }
+
+    public void updateCommentForInstruction(long id, CommentRequestDto commentRequestDto){
+        CommentsEntity commentsEntity = (CommentsEntity)genericDaoImpl.findById(new CommentsEntity(), id);
+        commentsEntity.setComment(commentRequestDto.getText());
         genericDaoImpl.save(commentsEntity);
     }
 
