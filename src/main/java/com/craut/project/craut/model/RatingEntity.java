@@ -18,6 +18,24 @@ public class RatingEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idrating;
 
+    @Column(name="fifthStarCnt")
+    private Integer fifthStarCnt;
+
+    @Column(name="fourthStarCnt")
+    private Integer fourthStarCnt;
+
+    @Column(name="thirdStarCnt")
+    private Integer thirdStarCnt;
+
+    @Column(name="secondStarCnt")
+    private Integer secondStarCnt;
+
+    @Column(name="firstStarCnt")
+    private Integer firstStarCnt;
+
+    @Column(name="value")
+    private Double value;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idInstruction")
     private InstructionEntity instructionEntity;
@@ -26,8 +44,16 @@ public class RatingEntity {
     @JoinColumn(name = "iduser")
     private UserEntity userEntite;
 
-    public RatingEntity(InstructionEntity instructionEntity, UserEntity userEntite) {
+    public RatingEntity(InstructionEntity instructionEntity, UserEntity userEntite, Double value,
+                        Integer firstStarCnt, Integer secondStarCnt, Integer thirdStarCnt,
+                        Integer fourthStarCnt, Integer fifthStarCnt) {
         this.instructionEntity = instructionEntity;
         this.userEntite = userEntite;
+        this.value = value;
+        this.firstStarCnt = firstStarCnt;
+        this.secondStarCnt = secondStarCnt;
+        this.thirdStarCnt = thirdStarCnt;
+        this.fourthStarCnt = fourthStarCnt;
+        this.fifthStarCnt = fifthStarCnt;
     }
 }

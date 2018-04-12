@@ -183,6 +183,9 @@ public class InstructionService {
         InstructionEntity instructionEntity = genericDaoImpl.findById(new InstructionEntity(), id);
         CommentResponseDto commentsEntity = genericDaoImpl.findCommentByProject(instructionEntity, "CommentsEntity","instructionEntity");
         ArrayList<CommentRequestDto> commentRequestDtoArrayList = new ArrayList<>();
+        if(commentsEntity == null){
+            return null;
+        }
         for(int i = 0; i < commentsEntity.getComment().size(); i++) {
             CommentRequestDto commentrequestDto = new CommentRequestDto();
 
@@ -267,41 +270,80 @@ public class InstructionService {
         return result;
     }
 
-    public List<InstructionRequestDto> getProjects(Long data){
-        if(data == 0) {
-            return genericDaoImpl.list("InstructionEntity");
-        }
-        else if(data == 1){
-            return genericDaoImpl.sortByAsc("InstructionEntity","rating");
-        }
-        else {
-            if(data == 2){
-                return genericDaoImpl.sortByAsc("InstructionEntity","dwy");
-            }else
-            return genericDaoImpl.list("InstructionEntity");
-        }
-    }
-
     public String setRating(RatingRequestDto rating){
         InstructionEntity currentProject = (InstructionEntity)genericDaoImpl.findById
-                (new InstructionEntity(),Long.parseLong(rating.getIdproject().toString()));
+                (new InstructionEntity(),Long.parseLong(rating.getInstructionId().toString()));
         UserEntity userEntity = (UserEntity) genericDaoImpl.findById
-                (new UserEntity(),Long.parseLong(rating.getIduser().toString()));
+                (new UserEntity(),Long.parseLong(rating.getUserId().toString()));
         RatingEntity ratingEntity = (RatingEntity)genericDaoImpl.findByTwoParametr(currentProject,
                 "RatingEntity","instructionEntity","userEntite", userEntity);
         if(ratingEntity==null) {
-            if (currentProject.getRating() == 0) {
-                genericDaoImpl.update("InstructionEntity", "idproject", currentProject.getIdInstruction(),
-                        "rating", rating.getRating());
-            } else {
-                genericDaoImpl.update("InstructionEntity", "idproject", currentProject.getIdInstruction(),
-                        "rating",
-                        (currentProject.getRating() + rating.getRating()) / 2);
+            Double newRatingValue = 0.0;
+            Integer firstStarCnt = 0;
+            Integer secondStarCnt = 0;
+            Integer thirdStarCnt = 0;
+            Integer fourthStarCnt = 0;
+            Integer fifthStarCnt = 0;
+            switch(rating.getValue().intValue()){
+                case 1:{
+                    firstStarCnt++;
+                    break;
+                }
+                case 2:{
+                    secondStarCnt++;
+                    break;
+                }
+                case 3:{
+                    thirdStarCnt++;
+                    break;
+                }
+                case 4:{
+                    fourthStarCnt++;
+                    break;
+                }
+                case 5:{
+                    fifthStarCnt++;
+                    break;
+                }
             }
-            genericDaoImpl.save(new RatingEntity(currentProject,userEntity));
+            genericDaoImpl.update("InstructionEntity", "idInstruction", currentProject.getIdInstruction(),
+                        "rating", newRatingValue);
+            genericDaoImpl.save(new RatingEntity(currentProject, userEntity, newRatingValue, firstStarCnt, secondStarCnt,
+                    thirdStarCnt, fourthStarCnt, fifthStarCnt));
             return "succes";
         }
-        return "You alreade give rating";
+        return "You already gave rating";
+    }
+
+    public int getRating(Long id){
+        InstructionEntity instructionEntity = (InstructionEntity)genericDaoImpl.findById(new InstructionEntity(), id);
+        ArrayList<RatingEntity> ratingEntities = (ArrayList<RatingEntity>) genericDaoImpl.findListByParametr(instructionEntity,
+                "RatingEntity", "instructionEntity");
+        Integer firstStarCnt = 0;
+        Integer secondStarCnt = 0;
+        Integer thirdStarCnt = 0;
+        Integer fourthStarCnt = 0;
+        Integer fifthStarCnt = 0;
+        for(int i = 0; i < ratingEntities.size(); i++){
+            if(ratingEntities.get(i).getFirstStarCnt() > 0){
+                firstStarCnt += ratingEntities.get(i).getFirstStarCnt();
+            }
+            if(ratingEntities.get(i).getSecondStarCnt() > 0){
+                secondStarCnt += ratingEntities.get(i).getSecondStarCnt();
+            }
+            if(ratingEntities.get(i).getThirdStarCnt() > 0){
+                thirdStarCnt += ratingEntities.get(i).getThirdStarCnt();
+            }
+            if(ratingEntities.get(i).getFourthStarCnt() > 0){
+                fourthStarCnt += ratingEntities.get(i).getFourthStarCnt();
+            }
+            if(ratingEntities.get(i).getFifthStarCnt() > 0){
+                fifthStarCnt += ratingEntities.get(i).getFifthStarCnt();
+            }
+        }
+        int result = (firstStarCnt + 2 * secondStarCnt + 3 * thirdStarCnt + 4 * fourthStarCnt + 5 * fifthStarCnt)/5;
+
+        return result;
     }
 
     public void checkProject()

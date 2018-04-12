@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RatingRequestDto implements Dto {
-    private String idproject;
-    private String iduser;
-    private Long rating;
+    private Long instructionId;
+    private Long userId;
+    private Double value;
 }

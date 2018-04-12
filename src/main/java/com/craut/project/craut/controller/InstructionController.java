@@ -141,12 +141,16 @@ public class InstructionController {
          return "success";
     }
 
-
-    @PreAuthorize("hasAnyRole('ROLE_VER','ROLE_USER')")
     @PostMapping(value = "/rating", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public String getRating(
             @RequestBody final RatingRequestDto rating) {
         return this.instructionService.setRating(rating);
+    }
+
+    @GetMapping(value = "/getRating/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public int getRatingByIdInstruction(@PathVariable("id") long id) {
+        return  instructionService.getRating(id);
     }
 }
