@@ -311,7 +311,7 @@ public class InstructionService {
                         "rating", newRatingValue);
             genericDaoImpl.save(new RatingEntity(currentProject, userEntity, newRatingValue, firstStarCnt, secondStarCnt,
                     thirdStarCnt, fourthStarCnt, fifthStarCnt));
-            return "succes";
+            return "success";
         }
         return "You already gave rating";
     }
@@ -342,17 +342,9 @@ public class InstructionService {
                 fifthStarCnt += ratingEntities.get(i).getFifthStarCnt();
             }
         }
-        int result = (firstStarCnt + 2 * secondStarCnt + 3 * thirdStarCnt + 4 * fourthStarCnt + 5 * fifthStarCnt)/5;
 
-        return result;
-    }
-
-    public void checkProject()
-    {
-        List<InstructionEntity> instructionEntityList = genericDaoImpl.list("InstructionEntity");
-        Date dateNow = new Date();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd");
-        StatusEntity active = (StatusEntity)genericDaoImpl.findById(new StatusEntity(),1l);
+        float result = Math.round((float) (0.2 * (firstStarCnt + 2 * secondStarCnt + 3 * thirdStarCnt + 4 * fourthStarCnt + 5 * fifthStarCnt)));
+        return (int)result;
     }
 
     public List<InstructionEntity> searcheByTag(Object tag){

@@ -151,6 +151,7 @@ public class InstructionController {
     @GetMapping(value = "/getRating/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public int getRatingByIdInstruction(@PathVariable("id") long id) {
+
         return  instructionService.getRating(id);
     }
 }

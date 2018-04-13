@@ -47,7 +47,7 @@ public class Verification
                         "\n" +
                         " <p style=\"font: 15px/1.25em 'Helvetica Neue', Arial, Helvetica;color: #333;\">\n" +
                         "\n" +
-                        " <a href=\"http://localhost:8080/verification?token=\"+token+\n" +
+                        " <a href=\"http://localhost:8080/verification?token=" + token +
                         "\"\" style=\"border-radius: 3px;-moz-border-radius: 3px;-webkit-border-radius: 3px;background: #3AA54C;color: #fff;cursor: pointer;display: block;font-weight: 700;font-size: 16px;line-height: 1.25em;margin: 24px auto 24px;padding: 10px 18px;text-decoration: none;width: 180px;text-align: center;\" target=\"_blank\" rel=\" noopener noreferrer\">" +
                                 " Verify HFP account </a>\n" + "\n" + " </p>\n" + "\n" +
                         " <p style=\"font: 15px/1.25em 'Helvetica Neue', Arial, Helvetica;color: #939393;margin-bottom: 0;\"> " +
