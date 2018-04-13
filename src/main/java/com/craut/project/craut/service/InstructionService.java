@@ -183,7 +183,7 @@ public class InstructionService {
         InstructionEntity instructionEntity = genericDaoImpl.findById(new InstructionEntity(), id);
         CommentResponseDto commentsEntity = genericDaoImpl.findCommentByProject(instructionEntity, "CommentsEntity","instructionEntity");
         ArrayList<CommentRequestDto> commentRequestDtoArrayList = new ArrayList<>();
-        if(commentsEntity == null){
+        if(commentsEntity.getComment() == null){
             return null;
         }
         for(int i = 0; i < commentsEntity.getComment().size(); i++) {
@@ -241,6 +241,7 @@ public class InstructionService {
 
     public List<InstructionAndTagsRequestDto> getUserInstructionsWithLimit(Object data, Integer limit){
         List<InstructionAndTagsRequestDto> result = getUserInstructions(data);
+        if(result == null) return null;
         Collections.sort(result, new Comparator<InstructionAndTagsRequestDto>() {
             @Override
             public int compare(InstructionAndTagsRequestDto o1, InstructionAndTagsRequestDto o2) {
