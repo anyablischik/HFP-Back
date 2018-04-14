@@ -343,7 +343,7 @@ public class InstructionService {
             }
         }
 
-        float result = Math.round((float) (0.2 * (firstStarCnt + 2 * secondStarCnt + 3 * thirdStarCnt + 4 * fourthStarCnt + 5 * fifthStarCnt)));
+        float result = Math.round(((firstStarCnt + 2 * secondStarCnt + 3 * thirdStarCnt + 4 * fourthStarCnt + 5 * fifthStarCnt) /ratingEntities.size()));
         return (int)result;
     }
 
