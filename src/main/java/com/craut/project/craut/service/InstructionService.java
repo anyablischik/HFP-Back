@@ -86,7 +86,7 @@ public class InstructionService {
     public String deleteSection(Object id){
         InstructionSections sections = (InstructionSections) genericDaoImpl.findById(new InstructionSections(), Long.parseLong(id.toString()));
         genericDaoImpl.del(sections);
-        return "succes";
+        return "success";
     }
 
     public InstructionAndTagsRequestDto updateInstruction(Long id, InstructionAndTagsRequestDto data){
@@ -161,7 +161,7 @@ public class InstructionService {
     public String deleteStep(Object id){
         StepEntity stepEntity = (StepEntity)genericDaoImpl.findById(new StepEntity(), Long.parseLong(id.toString()));
         genericDaoImpl.del(stepEntity);
-        return "succes";
+        return "success";
     }
 
     public String deleteInstruction(Long id){
@@ -171,7 +171,7 @@ public class InstructionService {
         genericDaoImpl.deleteList((ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"));
         genericDaoImpl.deleteList((ArrayList<CommentsEntity>)genericDaoImpl.findListByParametr(instructionEntity, "CommentsEntity","instructionEntity"));
         genericDaoImpl.del(instructionEntity);
-        return "succes";
+        return "success";
     }
 
     public void AddComment(CommentRequestDto commentRequestDto){

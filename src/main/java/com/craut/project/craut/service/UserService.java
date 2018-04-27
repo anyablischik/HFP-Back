@@ -91,24 +91,7 @@ public class UserService {
                 genericDaoImpl.update("UserEntity","iduser",block,
                         "blocked",1);
             if(choose == 2) {
-                UserEntity user = (UserEntity)genericDaoImpl.findById(new UserEntity(),block);
-                genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(user,"CommentsEntity",
-                        "userEntity"));
-                UserRoleEntity roleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,
-                        "UserRoleEntity","user");
-                List<InstructionEntity> list= (List<InstructionEntity>)genericDaoImpl
-                        .findListByParametr(user,
-                        "InstructionEntity","user");
-                if(list != null) {
-                    for (InstructionEntity obj : list) {
-                        genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(obj,
-                                "CommentsEntity", "instructionEntity"));
-                        genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(obj,
-                                "TagsEntity", "instructionEntity"));
-                        genericDaoImpl.del(obj);
-                    }
-                }
-                genericDaoImpl.del(roleEntity);
+                deleteUser(block);
             }
         }
         return "success";
