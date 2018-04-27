@@ -37,9 +37,11 @@ public class UserService {
         UserEntity userEntity = (UserEntity)genericDaoImpl.findById(new UserEntity(),userEntityId);
         UserRoleEntity userRoleEntity = (UserRoleEntity) genericDaoImpl.findByParametr(userEntity,
                 "UserRoleEntity","user");
-        UserEntity user = (UserEntity) genericDaoImpl.findByParametr(registrtionRequestDto.getUserName(),"UserEntity",
+        UserEntity user = (UserEntity) genericDaoImpl
+                .findByParametr(registrtionRequestDto.getUserName(),"UserEntity",
                 "userName");
-        if(user != null  && user.getUserName().equals(registrtionRequestDto.getUserName()) && user.getIdUser() != userEntity.getIdUser()) {
+        if(user != null  && user.getUserName()
+                .equals(registrtionRequestDto.getUserName()) && user.getIdUser() != userEntity.getIdUser()) {
             throw new BadCredentialsException("Login not unique.");
         }
         userRoleEntity.getUser().setImage(registrtionRequestDto.getImage());
@@ -61,7 +63,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<AuthUserDto> findAll() {
-        List<UserRoleEntity> listDto = (List<UserRoleEntity>)genericDaoImpl.list("UserRoleEntity");
+        List<UserRoleEntity> listDto = (List<UserRoleEntity>)genericDaoImpl
+                .list("UserRoleEntity");
         List<AuthUserDto> list = new ArrayList<>();
         for(UserRoleEntity userListDto: listDto){
             if(userListDto.getRole().getRoleStatus() != "ROLE_ADMIN"){
@@ -93,7 +96,8 @@ public class UserService {
                         "userEntity"));
                 UserRoleEntity roleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,
                         "UserRoleEntity","user");
-                List<InstructionEntity> list= (List<InstructionEntity>)genericDaoImpl.findListByParametr(user,
+                List<InstructionEntity> list= (List<InstructionEntity>)genericDaoImpl
+                        .findListByParametr(user,
                         "InstructionEntity","user");
                 if(list != null) {
                     for (InstructionEntity obj : list) {
@@ -116,13 +120,16 @@ public class UserService {
                 "userEntity"));
         UserRoleEntity roleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,
                 "UserRoleEntity","user");
-        List<InstructionEntity> list= (List<InstructionEntity>)genericDaoImpl.findListByParametr(user,
+        List<InstructionEntity> list= (List<InstructionEntity>)genericDaoImpl
+                .findListByParametr(user,
                 "InstructionEntity","user");
         if(list != null) {
             for (InstructionEntity instructionEntity : list) {
                 genericDaoImpl.deleteList(genericDaoImpl.findListByParametr(instructionEntity,
                         "TagsEntity", "instructionEntity"));
-                genericDaoImpl.deleteList((ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction"));
+                genericDaoImpl.deleteList((ArrayList<StepEntity>) genericDaoImpl
+                        .findListByParametr(instructionEntity, "StepEntity",
+                                "instruction"));
                 genericDaoImpl.del(instructionEntity);
             }
         }
@@ -133,11 +140,13 @@ public class UserService {
     public String confirmUser(ArrayList<Long> blockRequestDto){
         Long choose = blockRequestDto.get(0);
         blockRequestDto.remove(0);
-        MessageEntity messageEntity = (MessageEntity)genericDaoImpl.findById(new MessageEntity(),blockRequestDto.get(0));
-        UserEntity User = (UserEntity) genericDaoImpl.findById(new UserEntity(),messageEntity.getUser().getIdUser());
+        MessageEntity messageEntity = (MessageEntity)genericDaoImpl
+                .findById(new MessageEntity(),blockRequestDto.get(0));
+        UserEntity User = (UserEntity) genericDaoImpl.findById(new UserEntity(),
+                messageEntity.getUser().getIdUser());
             if(choose == 0)
-                genericDaoImpl.update("UserRoleEntity","user",User.getIdUser(),"role",
-                        3);
+                genericDaoImpl.update("UserRoleEntity","user",
+                        User.getIdUser(),"role", 3);
             genericDaoImpl.del(messageEntity);
         return "success";
     }
@@ -153,9 +162,12 @@ public class UserService {
     public List<InstructionEntity> fullTextSearch(String search)
     {
         List <InstructionEntity> list = new ArrayList<>();
-        list = genericDaoImpl.fullTextSearch(search,"project","name,purpose,content", 0, list);
-        list = genericDaoImpl.fullTextSearch(search,"comments","comment", 2,list);
-        list = genericDaoImpl.fullTextSearch(search,"tags","name", 2,list);
+        list = genericDaoImpl.fullTextSearch(search,"project",
+                "name,purpose,content", 0, list);
+        list = genericDaoImpl.fullTextSearch(search,"comments",
+                "comment", 2,list);
+        list = genericDaoImpl.fullTextSearch(search,"tags",
+                "name", 2,list);
 
         return list;
     }

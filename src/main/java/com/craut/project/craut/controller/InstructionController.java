@@ -18,50 +18,21 @@ public class InstructionController {
 
     private final InstructionService instructionService;
 
-//    @PreAuthorize("hasRole('ROLE_VER')")
+    //instructions
+
     @PostMapping(value = "/createInstruction", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public InstructionAndTagsRequestDto finalAll(@RequestBody InstructionAndTagsRequestDto projectRequestDto) {
-        return this.instructionService.save(projectRequestDto, projectRequestDto.getTags(), projectRequestDto.getSteps(), projectRequestDto.getSection(), projectRequestDto.getUserId(), projectRequestDto.getRating(), projectRequestDto.getTitle());
-    }
-
-    @PostMapping(value = "/createStep", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public StepDto createStep(@RequestBody StepDto data) {
-        return this.instructionService.save(data);
-    }
-
-    @PostMapping(value = "/createSection", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public SectionDto createSection(@RequestBody SectionDto SectionData) {
-        return this.instructionService.createSection(SectionData);
-    }
-
-    @PutMapping(value = "/updateStep/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public StepDto updateStep(@PathVariable("id") long id, @RequestBody final StepDto data) {
-        return instructionService.updateStep(id, data);
+        return this.instructionService.save(projectRequestDto, projectRequestDto.getTags(),
+                projectRequestDto.getSteps(), projectRequestDto.getSection(),
+                projectRequestDto.getUserId(), projectRequestDto.getRating(), projectRequestDto.getTitle());
     }
 
     @PutMapping(value = "/updateInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public InstructionAndTagsRequestDto updateInstructions(@PathVariable("id") long id, @RequestBody final InstructionAndTagsRequestDto data) {
+    public InstructionAndTagsRequestDto updateInstructions(@PathVariable("id") long id,
+                                                           @RequestBody final InstructionAndTagsRequestDto data) {
         return instructionService.updateInstruction(id, data);
-    }
-
-    @RequestMapping(value = "/getStep/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public StepDto projects(@PathVariable("id") long id) {
-        return instructionService.getStep(id);
-    }
-
-    @DeleteMapping(value = "/deleteStep/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteStep(@PathVariable("id") long id) {
-        return this.instructionService.deleteStep(id);
-    }
-
-    @GetMapping(value = "/getSections", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<SectionDto> getSections() {
-        return instructionService.getSections();
     }
 
     @GetMapping(value = "/getInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,31 +41,16 @@ public class InstructionController {
         return  instructionService.getInstruction(id);
     }
 
-    @DeleteMapping(value = "/deleteInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteInstruction(@PathVariable("id") long id) {
-        return this.instructionService.deleteInstruction(id);
-    }
-
-    @DeleteMapping(value = "/deleteSection/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteSection(@PathVariable("id") long id) {
-        return this.instructionService.deleteSection(id);
-    }
-
     @GetMapping(value = "/userInstructions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<InstructionAndTagsRequestDto> getInstructions(@PathVariable("id") long id) {
         return  instructionService.getUserInstructions(id);
     }
 
-    @GetMapping(value = "/getSection/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public SectionDto getSection(@PathVariable("id") long id) {
-        return  instructionService.getSection(id);
-    }
-
     @GetMapping(value = "/userInstructions/{id}/limit={limit}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public List<InstructionAndTagsRequestDto> getInstructions(@PathVariable("id") long id, @PathVariable("limit") Integer limit) {
+    public List<InstructionAndTagsRequestDto> getInstructions(@PathVariable("id") long id,
+                                                              @PathVariable("limit") Integer limit) {
         if (limit == null){
             return  instructionService.getUserInstructions(id);
         }
@@ -109,10 +65,67 @@ public class InstructionController {
         return  instructionService.getInstructionsBySections(id);
     }
 
-    @PostMapping(value = "/searcheTag", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/deleteInstruction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteInstruction(@PathVariable("id") long id) {
+        return this.instructionService.deleteInstruction(id);
+    }
+
+    //step
+
+    @PostMapping(value = "/createStep", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public List<InstructionEntity> finalAll(@RequestBody Object tag) {
-        return this.instructionService.searcheByTag(tag);
+    public StepDto createStep(@RequestBody StepDto data) {
+        return this.instructionService.save(data);
+    }
+
+    @PutMapping(value = "/updateStep/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public StepDto updateStep(@PathVariable("id") long id, @RequestBody final StepDto data) {
+        return instructionService.updateStep(id, data);
+    }
+
+    @RequestMapping(value = "/getStep/{id}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public StepDto projects(@PathVariable("id") long id) {
+        return instructionService.getStep(id);
+    }
+
+    @DeleteMapping(value = "/deleteStep/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteStep(@PathVariable("id") long id) {
+        return this.instructionService.deleteStep(id);
+    }
+
+    //section
+
+    @PostMapping(value = "/createSection", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public SectionDto createSection(@RequestBody SectionDto SectionData) {
+        return this.instructionService.createSection(SectionData);
+    }
+
+    @GetMapping(value = "/getSections", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<SectionDto> getSections() {
+        return instructionService.getSections();
+    }
+
+    @GetMapping(value = "/getSection/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public SectionDto getSection(@PathVariable("id") long id) {
+        return  instructionService.getSection(id);
+    }
+
+    @DeleteMapping(value = "/deleteSection/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteSection(@PathVariable("id") long id) {
+        return this.instructionService.deleteSection(id);
+    }
+
+    //comments
+
+    @PostMapping(value = "/updateComment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public String updateComment(@PathVariable("id") long id, @RequestBody final CommentRequestDto commentRequestDto) {
+        instructionService.updateCommentForInstruction(id, commentRequestDto);
+        return "success";
     }
 
     @PostMapping(value = "/createComment", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -128,18 +141,13 @@ public class InstructionController {
         return  instructionService.getCommentByInstruction(id);
     }
 
-    @PostMapping(value = "/updateComment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public String updateComment(@PathVariable("id") long id, @RequestBody final CommentRequestDto commentRequestDto) {
-         instructionService.updateCommentForInstruction(id, commentRequestDto);
-         return "success";
-    }
-
     @DeleteMapping(value = "/deleteComment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String deleteComment(@PathVariable("id") long id) {
          this.instructionService.deleteCom(id);
          return "success";
     }
+
+    //rating
 
     @PostMapping(value = "/rating", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -153,5 +161,13 @@ public class InstructionController {
     public int getRatingByIdInstruction(@PathVariable("id") long id) {
 
         return  instructionService.getRating(id);
+    }
+
+    //search
+
+    @PostMapping(value = "/searcheTag", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<InstructionEntity> finalAll(@RequestBody Object tag) {
+        return this.instructionService.searcheByTag(tag);
     }
 }

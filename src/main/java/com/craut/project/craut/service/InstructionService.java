@@ -126,6 +126,9 @@ public class InstructionService {
 
         ArrayList<StepEntity> array = (ArrayList<StepEntity>) genericDaoImpl.findListByParametr(instructionEntity, "StepEntity", "instruction");
         ArrayList<StepDto> goodArray = new ArrayList<>();
+        if(array == null){
+            return null;
+        }
         array.forEach( stepEntity -> goodArray.add(new StepDto(stepEntity.getIdStep(), stepEntity.getPosition(),
                 stepEntity.getNameStep(), stepEntity.getText(), stepEntity.getImage(), stepEntity.getInstruction().getIdInstruction())));
 
@@ -325,6 +328,9 @@ public class InstructionService {
         Integer thirdStarCnt = 0;
         Integer fourthStarCnt = 0;
         Integer fifthStarCnt = 0;
+        if(ratingEntities == null){
+            return 0;
+        }
         for(int i = 0; i < ratingEntities.size(); i++){
             if(ratingEntities.get(i).getFirstStarCnt() > 0){
                 firstStarCnt += ratingEntities.get(i).getFirstStarCnt();

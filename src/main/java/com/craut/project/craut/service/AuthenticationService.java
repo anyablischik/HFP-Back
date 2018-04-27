@@ -41,14 +41,15 @@ public class AuthenticationService {
 
             String password = Optional.ofNullable(loginRequestDto.getPassword())
                     .orElseThrow(() -> new BadCredentialsException("Password should be passed."));
-            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username,
-                    password);
+            UsernamePasswordAuthenticationToken authRequest =
+                    new UsernamePasswordAuthenticationToken(username, password);
             final Authentication authResult = this.authenticationManager.authenticate(authRequest);
 
             if (authResult.isAuthenticated()) {
                 JwtUserDetails userDetails = (JwtUserDetails) authResult.getPrincipal();
 
-                UserEntity user = (UserEntity)genericDaoImpl.findById(new UserEntity(),userDetails.getId());
+                UserEntity user = (UserEntity)genericDaoImpl
+                        .findById(new UserEntity(),userDetails.getId());
                 UserRoleEntity userRoleEntity = (UserRoleEntity)genericDaoImpl.findByParametr(user,
                         "UserRoleEntity","user");
 
