@@ -14,4 +14,5 @@ public class AuthUserDto implements Dto {
     private String password;
     private String role;
     private String image;
+    private String blocked;
 }

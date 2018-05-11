@@ -11,6 +11,7 @@ public class AuthUserTransformer {
 
     public AuthUserDto makeDto(final UserRoleEntity userRoleEntity) {
         AuthUserDto authUserDto = new AuthUserDto();
+        String blocked = "";
 
         authUserDto.setId(userRoleEntity.getUser().getIdUser());
         authUserDto.setFirstName(userRoleEntity.getUser().getFirstName());
@@ -20,6 +21,13 @@ public class AuthUserTransformer {
         authUserDto.setPassword(userRoleEntity.getUser().getPassword());
         authUserDto.setRole(userRoleEntity.getRole().getRoleStatus());
         authUserDto.setImage(userRoleEntity.getUser().getImage());
+        if(userRoleEntity.getUser().getBlocked() == 1){
+            blocked = "1";
+        }
+        if(userRoleEntity.getUser().getBlocked() == 3){
+            blocked = "0";
+        }
+        authUserDto.setBlocked(blocked);
 
         return authUserDto;
     }
